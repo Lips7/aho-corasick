@@ -382,10 +382,6 @@ mod des {
             let start_kind: StartKind = start_kind
                 .ok_or_else(|| de::Error::missing_field("start_kind"))?;
 
-            // Here you can implement different logic based on the kind
-            // For example, you might create different `AcAutomaton` implementations
-            // and cast `aut` accordingly
-
             Ok(AhoCorasick { aut, kind, start_kind })
         }
     }
