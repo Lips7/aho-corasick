@@ -251,7 +251,7 @@ impl Usize for usize {
         }
         #[cfg(not(debug_assertions))]
         {
-            self as u64
+            *self as u64
         }
     }
 }
