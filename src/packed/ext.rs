@@ -14,7 +14,7 @@ pub(crate) trait Pointer {
     /// why. Otherwise, it has the potential to violate pointer provenance.)
     /// The purpose of this function is just to be able to do arithmetic, i.e.,
     /// computing offsets or alignments.
-    fn as_usize(self) -> usize;
+    fn as_usize(&self) -> usize;
 }
 
 impl<T> Pointer for *const T {
@@ -23,8 +23,8 @@ impl<T> Pointer for *const T {
         usize::try_from(self.offset_from(origin)).unwrap_unchecked()
     }
 
-    fn as_usize(self) -> usize {
-        self as usize
+    fn as_usize(&self) -> usize {
+        *self as usize
     }
 }
 
@@ -33,7 +33,7 @@ impl<T> Pointer for *mut T {
         (self as *const T).distance(origin as *const T)
     }
 
-    fn as_usize(self) -> usize {
-        (self as *const T).as_usize()
+    fn as_usize(&self) -> usize {
+        (*self as *const T).as_usize()
     }
 }

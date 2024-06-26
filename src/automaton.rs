@@ -39,13 +39,13 @@ impl<'a, T: private::Sealed + ?Sized> private::Sealed for &'a T {}
 /// This trait primarily exists for niche use cases such as:
 ///
 /// * Using an NFA or DFA directly, bypassing the top-level
-/// [`AhoCorasick`](crate::AhoCorasick) searcher. Currently, these include
-/// [`noncontiguous::NFA`](crate::nfa::noncontiguous::NFA),
-/// [`contiguous::NFA`](crate::nfa::contiguous::NFA) and
-/// [`dfa::DFA`](crate::dfa::DFA).
+///   [`AhoCorasick`](crate::AhoCorasick) searcher. Currently, these include
+///   [`noncontiguous::NFA`](crate::nfa::noncontiguous::NFA),
+///   [`contiguous::NFA`](crate::nfa::contiguous::NFA) and
+///   [`dfa::DFA`](crate::dfa::DFA).
 /// * Implementing your own custom search routine by walking the automaton
-/// yourself. This might be useful for implementing search on non-contiguous
-/// strings or streams.
+///   yourself. This might be useful for implementing search on non-contiguous
+///   strings or streams.
 ///
 /// For most use cases, it is not expected that users will need
 /// to use or even know about this trait. Indeed, the top level
@@ -69,22 +69,22 @@ impl<'a, T: private::Sealed + ?Sized> private::Sealed for &'a T {}
 /// a state is treated as special if it is a dead, match or start state:
 ///
 /// * A dead state is a state that cannot be left once entered. All transitions
-/// on a dead state lead back to itself. The dead state is meant to be treated
-/// as a sentinel indicating that the search should stop and return a match if
-/// one has been found, and nothing otherwise.
+///   on a dead state lead back to itself. The dead state is meant to be treated
+///   as a sentinel indicating that the search should stop and return a match if
+///   one has been found, and nothing otherwise.
 /// * A match state is a state that indicates one or more patterns have
-/// matched. Depending on the [`MatchKind`] of the automaton, a search may
-/// stop once a match is seen, or it may continue looking for matches until
-/// it enters a dead state or sees the end of the haystack.
+///   matched. Depending on the [`MatchKind`] of the automaton, a search may
+///   stop once a match is seen, or it may continue looking for matches until
+///   it enters a dead state or sees the end of the haystack.
 /// * A start state is a state that a search begins in. It is useful to know
-/// when a search enters a start state because it may mean that a prefilter can
-/// be used to skip ahead and quickly look for candidate matches. Unlike dead
-/// and match states, it is never necessary to explicitly handle start states
-/// for correctness. Indeed, in this crate, implementations of `Automaton`
-/// will only treat start states as "special" when a prefilter is enabled and
-/// active. Otherwise, treating it as special has no purpose and winds up
-/// slowing down the overall search because it results in ping-ponging between
-/// the main state transition and the "special" state logic.
+///   when a search enters a start state because it may mean that a prefilter can
+///   be used to skip ahead and quickly look for candidate matches. Unlike dead
+///   and match states, it is never necessary to explicitly handle start states
+///   for correctness. Indeed, in this crate, implementations of `Automaton`
+///   will only treat start states as "special" when a prefilter is enabled and
+///   active. Otherwise, treating it as special has no purpose and winds up
+///   slowing down the overall search because it results in ping-ponging between
+///   the main state transition and the "special" state logic.
 ///
 /// Since checking whether a state is special by doing three different
 /// checks would be too expensive inside a fast search loop, the
@@ -109,10 +109,10 @@ impl<'a, T: private::Sealed + ?Sized> private::Sealed for &'a T {}
 /// The primary correctness guarantees are:
 ///
 /// * `Automaton::start_state` always returns a valid state ID or an error or
-/// panics.
+///   panics.
 /// * `Automaton::next_state`, when given a valid state ID, always returns
-/// a valid state ID for all values of `anchored` and `byte`, or otherwise
-/// panics.
+///   a valid state ID for all values of `anchored` and `byte`, or otherwise
+///   panics.
 ///
 /// In general, the rest of the methods on `Automaton` need to uphold their
 /// contracts as well. For example, `Automaton::is_dead` should only returns
@@ -228,7 +228,7 @@ pub unsafe trait Automaton: private::Sealed {
     ///
     /// 1. It came from a call to `Automaton::start_state`, or
     /// 2. It came from a previous call to `Automaton::next_state` with a
-    /// valid state ID.
+    ///    valid state ID.
     ///
     /// Implementations must treat all possible values of `byte` as valid.
     ///
@@ -556,10 +556,10 @@ pub unsafe trait Automaton: private::Sealed {
     /// [`AhoCorasick::try_stream_find_iter`](crate::AhoCorasick::try_stream_find_iter)
     /// for more documentation and examples.
     #[cfg(feature = "std")]
-    fn try_stream_find_iter<'a, R: std::io::Read>(
-        &'a self,
+    fn try_stream_find_iter<R: std::io::Read>(
+        &self,
         rdr: R,
-    ) -> Result<StreamFindIter<'a, Self, R>, MatchError>
+    ) -> Result<StreamFindIter<'_, Self, R>, MatchError>
     where
         Self: Sized,
     {
@@ -1272,12 +1272,10 @@ pub(crate) fn try_find_fwd<A: Automaton + ?Sized>(
         } else {
             try_find_fwd_imp(aut, input, Some(pre), Anchored::No, false)
         }
+    } else if earliest {
+        try_find_fwd_imp(aut, input, None, Anchored::No, true)
     } else {
-        if earliest {
-            try_find_fwd_imp(aut, input, None, Anchored::No, true)
-        } else {
-            try_find_fwd_imp(aut, input, None, Anchored::No, false)
-        }
+        try_find_fwd_imp(aut, input, None, Anchored::No, false)
     }
 }
 
@@ -1588,7 +1586,7 @@ pub(crate) fn sparse_transitions<'a>(
 ) -> impl Iterator<Item = (u8, u8, StateID)> + 'a {
     let mut cur: Option<(u8, u8, StateID)> = None;
     core::iter::from_fn(move || {
-        while let Some((class, next)) = it.next() {
+        for (class, next) in it.by_ref() {
             let (prev_start, prev_end, prev_next) = match cur {
                 Some(x) => x,
                 None => {

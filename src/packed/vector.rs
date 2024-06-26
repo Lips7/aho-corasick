@@ -28,8 +28,6 @@ use core::{
 pub(crate) trait Vector:
     Copy + Debug + Send + Sync + UnwindSafe + RefUnwindSafe
 {
-    /// The number of bits in the vector.
-    const BITS: usize;
     /// The number of bytes in the vector. That is, this is the size of the
     /// vector in memory.
     const BYTES: usize;
@@ -71,6 +69,7 @@ pub(crate) trait Vector:
     ///
     /// Callers must ensure that this is okay to call in the current target for
     /// the current CPU.
+    #[allow(dead_code)]
     unsafe fn cmpeq(self, vector2: Self) -> Self;
 
     /// Perform a bitwise 'and' of this vector and the one given and return
@@ -607,7 +606,6 @@ mod aarch64_neon {
     use super::Vector;
 
     impl Vector for uint8x16_t {
-        const BITS: usize = 128;
         const BYTES: usize = 16;
 
         #[inline(always)]

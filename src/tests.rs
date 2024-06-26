@@ -93,7 +93,7 @@ const AC_LEFTMOST_LONGEST_ANCHORED: TestCollection = &[
 /// true regardless of match semantics. That is, all combinations of
 /// leftmost-{shortest, first, longest} x {overlapping, non-overlapping}
 /// should produce the same answer.
-const BASICS: &'static [SearchTest] = &[
+const BASICS: &[SearchTest] = &[
     t!(basic000, &[], "", &[]),
     t!(basic001, &[""], "a", &[(0, 0, 0), (0, 1, 1)]),
     t!(basic002, &["a"], "", &[]),
@@ -155,7 +155,7 @@ const BASICS: &'static [SearchTest] = &[
 /// always be true regardless of match semantics. That is, all combinations of
 /// leftmost-{shortest, first, longest} x {overlapping, non-overlapping} should
 /// produce the same answer.
-const ANCHORED_BASICS: &'static [SearchTest] = &[
+const ANCHORED_BASICS: &[SearchTest] = &[
     t!(abasic000, &[], "", &[]),
     t!(abasic001, &[], "a", &[]),
     t!(abasic002, &[], "abc", &[]),
@@ -177,7 +177,7 @@ const ANCHORED_BASICS: &'static [SearchTest] = &[
 /// some do in order to write clearer tests. For example, standard000 will
 /// pass with leftmost-first semantics, but standard010 will not. We write
 /// both to emphasize how the match semantics work.
-const STANDARD: &'static [SearchTest] = &[
+const STANDARD: &[SearchTest] = &[
     t!(standard000, &["ab", "abcd"], "abcd", &[(0, 0, 2)]),
     t!(standard010, &["abcd", "ab"], "abcd", &[(1, 0, 2)]),
     t!(standard020, &["abcd", "ab", "abc"], "abcd", &[(1, 0, 2)]),
@@ -197,7 +197,7 @@ const STANDARD: &'static [SearchTest] = &[
 ];
 
 /// Like STANDARD, but for anchored searches.
-const STANDARD_ANCHORED: &'static [SearchTest] = &[
+const STANDARD_ANCHORED: &[SearchTest] = &[
     t!(astandard000, &["ab", "abcd"], "abcd", &[(0, 0, 2)]),
     t!(astandard010, &["abcd", "ab"], "abcd", &[(1, 0, 2)]),
     t!(astandard020, &["abcd", "ab", "abc"], "abcd", &[(1, 0, 2)]),
@@ -215,7 +215,7 @@ const STANDARD_ANCHORED: &'static [SearchTest] = &[
 /// both leftmost-first and leftmost-longest match kinds. Stated differently,
 /// among ambiguous matches, the longest match and the match that appeared
 /// first when constructing the automaton should always be the same.
-const LEFTMOST: &'static [SearchTest] = &[
+const LEFTMOST: &[SearchTest] = &[
     t!(leftmost000, &["ab", "ab"], "abcd", &[(0, 0, 2)]),
     t!(leftmost010, &["a", ""], "a", &[(0, 0, 1)]),
     t!(leftmost011, &["a", ""], "ab", &[(0, 0, 1), (1, 2, 2)]),
@@ -268,7 +268,7 @@ const LEFTMOST: &'static [SearchTest] = &[
 ];
 
 /// Like LEFTMOST, but for anchored searches.
-const ANCHORED_LEFTMOST: &'static [SearchTest] = &[
+const ANCHORED_LEFTMOST: &[SearchTest] = &[
     t!(aleftmost000, &["ab", "ab"], "abcd", &[(0, 0, 2)]),
     // We shouldn't allow an empty match immediately following a match, right?
     t!(aleftmost010, &["a", ""], "a", &[(0, 0, 1)]),
@@ -324,7 +324,7 @@ const ANCHORED_LEFTMOST: &'static [SearchTest] = &[
 /// Tests for non-overlapping leftmost-first match semantics. These tests
 /// should generally be specific to leftmost-first, which means they should
 /// generally fail under leftmost-longest semantics.
-const LEFTMOST_FIRST: &'static [SearchTest] = &[
+const LEFTMOST_FIRST: &[SearchTest] = &[
     t!(leftfirst000, &["ab", "abcd"], "abcd", &[(0, 0, 2)]),
     t!(leftfirst010, &["", "a"], "a", &[(0, 0, 0), (0, 1, 1)]),
     t!(leftfirst011, &["", "a", ""], "a", &[(0, 0, 0), (0, 1, 1),]),
@@ -355,7 +355,7 @@ const LEFTMOST_FIRST: &'static [SearchTest] = &[
 ];
 
 /// Like LEFTMOST_FIRST, but for anchored searches.
-const ANCHORED_LEFTMOST_FIRST: &'static [SearchTest] = &[
+const ANCHORED_LEFTMOST_FIRST: &[SearchTest] = &[
     t!(aleftfirst000, &["ab", "abcd"], "abcd", &[(0, 0, 2)]),
     t!(aleftfirst010, &["", "a"], "a", &[(0, 0, 0), (0, 1, 1)]),
     t!(aleftfirst011, &["", "a", ""], "a", &[(0, 0, 0), (0, 1, 1)]),
@@ -381,7 +381,7 @@ const ANCHORED_LEFTMOST_FIRST: &'static [SearchTest] = &[
 /// Tests for non-overlapping leftmost-longest match semantics. These tests
 /// should generally be specific to leftmost-longest, which means they should
 /// generally fail under leftmost-first semantics.
-const LEFTMOST_LONGEST: &'static [SearchTest] = &[
+const LEFTMOST_LONGEST: &[SearchTest] = &[
     t!(leftlong000, &["ab", "abcd"], "abcd", &[(1, 0, 4)]),
     t!(leftlong010, &["abcd", "bcd", "cd", "b"], "abcd", &[(0, 0, 4),]),
     t!(leftlong020, &["", "a"], "a", &[(1, 0, 1)]),
@@ -409,7 +409,7 @@ const LEFTMOST_LONGEST: &'static [SearchTest] = &[
 ];
 
 /// Like LEFTMOST_LONGEST, but for anchored searches.
-const ANCHORED_LEFTMOST_LONGEST: &'static [SearchTest] = &[
+const ANCHORED_LEFTMOST_LONGEST: &[SearchTest] = &[
     t!(aleftlong000, &["ab", "abcd"], "abcd", &[(1, 0, 4)]),
     t!(aleftlong010, &["abcd", "bcd", "cd", "b"], "abcd", &[(0, 0, 4),]),
     t!(aleftlong020, &["", "a"], "a", &[(1, 0, 1)]),
@@ -439,7 +439,7 @@ const ANCHORED_LEFTMOST_LONGEST: &'static [SearchTest] = &[
 ///
 /// Generally these tests shouldn't pass when using overlapping semantics.
 /// These should pass for both standard and leftmost match semantics.
-const NON_OVERLAPPING: &'static [SearchTest] = &[
+const NON_OVERLAPPING: &[SearchTest] = &[
     t!(nover010, &["abcd", "bcd", "cd"], "abcd", &[(0, 0, 4),]),
     t!(nover020, &["bcd", "cd", "abcd"], "abcd", &[(2, 0, 4),]),
     t!(nover030, &["abc", "bc"], "zazabcz", &[(0, 3, 6),]),
@@ -455,7 +455,7 @@ const NON_OVERLAPPING: &'static [SearchTest] = &[
 ];
 
 /// Like NON_OVERLAPPING, but for anchored searches.
-const ANCHORED_NON_OVERLAPPING: &'static [SearchTest] = &[
+const ANCHORED_NON_OVERLAPPING: &[SearchTest] = &[
     t!(anover010, &["abcd", "bcd", "cd"], "abcd", &[(0, 0, 4),]),
     t!(anover020, &["bcd", "cd", "abcd"], "abcd", &[(2, 0, 4),]),
     t!(anover030, &["abc", "bc"], "zazabcz", &[]),
@@ -474,7 +474,7 @@ const ANCHORED_NON_OVERLAPPING: &'static [SearchTest] = &[
 ///
 /// This only supports standard match semantics, since leftmost-{first,longest}
 /// do not support overlapping matches.
-const OVERLAPPING: &'static [SearchTest] = &[
+const OVERLAPPING: &[SearchTest] = &[
     t!(
         over000,
         &["abcd", "bcd", "cd", "b"],
@@ -579,7 +579,7 @@ const ANCHORED_OVERLAPPING: &'static [SearchTest] = &[
 ///
 /// These tests should all have the same behavior regardless of match semantics
 /// or whether the search is overlapping.
-const ASCII_CASE_INSENSITIVE: &'static [SearchTest] = &[
+const ASCII_CASE_INSENSITIVE: &[SearchTest] = &[
     t!(acasei000, &["a"], "A", &[(0, 0, 1)]),
     t!(acasei010, &["Samwise"], "SAMWISE", &[(0, 0, 7)]),
     t!(acasei011, &["Samwise"], "SAMWISE.abcd", &[(0, 0, 7)]),
@@ -587,14 +587,14 @@ const ASCII_CASE_INSENSITIVE: &'static [SearchTest] = &[
 ];
 
 /// Like ASCII_CASE_INSENSITIVE, but specifically for non-overlapping tests.
-const ASCII_CASE_INSENSITIVE_NON_OVERLAPPING: &'static [SearchTest] = &[
+const ASCII_CASE_INSENSITIVE_NON_OVERLAPPING: &[SearchTest] = &[
     t!(acasei000, &["foo", "FOO"], "fOo", &[(0, 0, 3)]),
     t!(acasei000, &["FOO", "foo"], "fOo", &[(0, 0, 3)]),
     t!(acasei010, &["abc", "def"], "abcdef", &[(0, 0, 3), (1, 3, 6)]),
 ];
 
 /// Like ASCII_CASE_INSENSITIVE, but specifically for overlapping tests.
-const ASCII_CASE_INSENSITIVE_OVERLAPPING: &'static [SearchTest] = &[
+const ASCII_CASE_INSENSITIVE_OVERLAPPING: &[SearchTest] = &[
     t!(acasei000, &["foo", "FOO"], "fOo", &[(0, 0, 3), (1, 0, 3)]),
     t!(acasei001, &["FOO", "foo"], "fOo", &[(0, 0, 3), (1, 0, 3)]),
     // This is a regression test from:
@@ -612,7 +612,7 @@ const ASCII_CASE_INSENSITIVE_OVERLAPPING: &'static [SearchTest] = &[
 ///
 /// If regression tests are needed for specific match semantics, then add them
 /// to the appropriate group above.
-const REGRESSION: &'static [SearchTest] = &[
+const REGRESSION: &[SearchTest] = &[
     t!(regression010, &["inf", "ind"], "infind", &[(0, 0, 3), (1, 3, 6),]),
     t!(regression020, &["ind", "inf"], "infind", &[(1, 0, 3), (0, 3, 6),]),
     t!(
@@ -1400,7 +1400,7 @@ fn run_search_tests<F: FnMut(&SearchTest) -> Vec<Match>>(
         for test in tests {
             assert_eq!(
                 test.matches,
-                get_match_triples(f(&test)).as_slice(),
+                get_match_triples(f(test)).as_slice(),
                 "test: {}, patterns: {:?}, haystack: {:?}",
                 test.name,
                 test.patterns,
@@ -1431,7 +1431,7 @@ fn run_stream_search_tests<F: FnMut(&SearchTest) -> Vec<Match>>(
             }
             assert_eq!(
                 test.matches,
-                get_match_triples(f(&test)).as_slice(),
+                get_match_triples(f(test)).as_slice(),
                 "test: {}, patterns: {:?}, haystack: {:?}",
                 test.name,
                 test.patterns,
@@ -1524,14 +1524,14 @@ fn anchored_not_allowed_even_if_technically_available() {
     let ac = AhoCorasick::builder()
         .kind(Some(AhoCorasickKind::NoncontiguousNFA))
         .start_kind(StartKind::Unanchored)
-        .build(&["foo"])
+        .build(["foo"])
         .unwrap();
     assert!(ac.try_find(Input::new("foo").anchored(Anchored::Yes)).is_err());
 
     let ac = AhoCorasick::builder()
         .kind(Some(AhoCorasickKind::ContiguousNFA))
         .start_kind(StartKind::Unanchored)
-        .build(&["foo"])
+        .build(["foo"])
         .unwrap();
     assert!(ac.try_find(Input::new("foo").anchored(Anchored::Yes)).is_err());
 
@@ -1539,7 +1539,7 @@ fn anchored_not_allowed_even_if_technically_available() {
     let ac = AhoCorasick::builder()
         .kind(Some(AhoCorasickKind::DFA))
         .start_kind(StartKind::Unanchored)
-        .build(&["foo"])
+        .build(["foo"])
         .unwrap();
     assert!(ac.try_find(Input::new("foo").anchored(Anchored::Yes)).is_err());
 }
@@ -1553,14 +1553,14 @@ fn unanchored_not_allowed_even_if_technically_available() {
     let ac = AhoCorasick::builder()
         .kind(Some(AhoCorasickKind::NoncontiguousNFA))
         .start_kind(StartKind::Anchored)
-        .build(&["foo"])
+        .build(["foo"])
         .unwrap();
     assert!(ac.try_find(Input::new("foo").anchored(Anchored::No)).is_err());
 
     let ac = AhoCorasick::builder()
         .kind(Some(AhoCorasickKind::ContiguousNFA))
         .start_kind(StartKind::Anchored)
-        .build(&["foo"])
+        .build(["foo"])
         .unwrap();
     assert!(ac.try_find(Input::new("foo").anchored(Anchored::No)).is_err());
 
@@ -1568,7 +1568,7 @@ fn unanchored_not_allowed_even_if_technically_available() {
     let ac = AhoCorasick::builder()
         .kind(Some(AhoCorasickKind::DFA))
         .start_kind(StartKind::Anchored)
-        .build(&["foo"])
+        .build(["foo"])
         .unwrap();
     assert!(ac.try_find(Input::new("foo").anchored(Anchored::No)).is_err());
 }
@@ -1586,7 +1586,7 @@ fn unanchored_not_allowed_even_if_technically_available() {
 fn prefilter_stays_in_bounds() {
     let ac = AhoCorasick::builder()
         .match_kind(MatchKind::LeftmostFirst)
-        .build(&["sam", "frodo", "pippin", "merry", "gandalf", "sauron"])
+        .build(["sam", "frodo", "pippin", "merry", "gandalf", "sauron"])
         .unwrap();
     let haystack = "foo gandalf";
     assert_eq!(None, ac.find(Input::new(haystack).range(0..10)));
@@ -1600,7 +1600,7 @@ fn prefilter_stays_in_bounds() {
 fn regression_ascii_case_insensitive_no_exponential() {
     let ac = AhoCorasick::builder()
         .ascii_case_insensitive(true)
-        .build(&["Tsubaki House-Triple Shot Vol01校花三姐妹"])
+        .build(["Tsubaki House-Triple Shot Vol01校花三姐妹"])
         .unwrap();
     assert!(ac.find("").is_none());
 }
@@ -1614,14 +1614,14 @@ fn regression_ascii_case_insensitive_no_exponential() {
 fn regression_rare_byte_prefilter() {
     use crate::AhoCorasick;
 
-    let ac = AhoCorasick::new(&["ab/j/", "x/"]).unwrap();
+    let ac = AhoCorasick::new(["ab/j/", "x/"]).unwrap();
     assert!(ac.is_match("ab/j/"));
 }
 
 #[test]
 fn regression_case_insensitive_prefilter() {
-    for c in b'a'..b'z' {
-        for c2 in b'a'..b'z' {
+    for c in b'a'..=b'z' {
+        for c2 in b'a'..=b'z' {
             let c = c as char;
             let c2 = c2 as char;
             let needle = format!("{}{}", c, c2).to_lowercase();
@@ -1629,7 +1629,7 @@ fn regression_case_insensitive_prefilter() {
             let ac = AhoCorasick::builder()
                 .ascii_case_insensitive(true)
                 .prefilter(true)
-                .build(&[&needle])
+                .build([&needle])
                 .unwrap();
             assert_eq!(
                 1,
@@ -1675,8 +1675,8 @@ fn regression_stream_rare_byte_prefilter() {
             let mut from = 0;
             if self.read < BEGIN {
                 from = buf.len().min(BEGIN - self.read);
-                for x in 0..from {
-                    buf[x] = 0;
+                for x in buf.iter_mut().take(from) {
+                    *x = 0;
                 }
                 self.read += from;
             }
@@ -1691,8 +1691,8 @@ fn regression_stream_rare_byte_prefilter() {
                     from = to;
                 }
             }
-            for x in from..buf.len() {
-                buf[x] = 0;
+            for x in buf.iter_mut().skip(from) {
+                *x = 0;
                 self.read += 1;
             }
             Ok(buf.len())
@@ -1704,7 +1704,7 @@ fn regression_stream_rare_byte_prefilter() {
             // Enable byte classes to make debugging the automaton easier. It
             // should have no effect on the test result.
             .byte_classes(false)
-            .build(&[&MAGIC])
+            .build([&MAGIC])
             .unwrap();
 
         // While reading from a vector, it works:

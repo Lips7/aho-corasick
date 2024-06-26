@@ -309,7 +309,7 @@ impl Builder {
             return self;
         }
         // Just in case PATTERN_LIMIT increases beyond u16::MAX.
-        assert!(self.patterns.len() <= core::u16::MAX as usize);
+        assert!(self.patterns.len() <= u16::MAX as usize);
 
         let pattern = pattern.as_ref();
         if pattern.is_empty() {
@@ -348,6 +348,11 @@ impl Builder {
     /// Returns the number of patterns added to this builder.
     pub fn len(&self) -> usize {
         self.patterns.len()
+    }
+
+    /// Returns if patterns is empty.
+    pub fn is_empty(&self) -> bool {
+        self.patterns.is_empty()
     }
 
     /// Returns the length, in bytes, of the shortest pattern added.

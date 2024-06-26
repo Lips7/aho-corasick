@@ -11,17 +11,17 @@ use crate::util::primitives::PatternID;
 /// configure:
 ///
 /// * The haystack to search, provided to the [`Input::new`] constructor. This
-/// is the only required parameter.
+///   is the only required parameter.
 /// * The span _within_ the haystack to limit a search to. (The default
-/// is the entire haystack.) This is configured via [`Input::span`] or
-/// [`Input::range`].
+///   is the entire haystack.) This is configured via [`Input::span`] or
+///   [`Input::range`].
 /// * Whether to run an unanchored (matches can occur anywhere after the
-/// start of the search) or anchored (matches can only occur beginning at
-/// the start of the search) search. Unanchored search is the default. This is
-/// configured via [`Input::anchored`].
+///   start of the search) or anchored (matches can only occur beginning at
+///   the start of the search) search. Unanchored search is the default. This is
+///   configured via [`Input::anchored`].
 /// * Whether to quit the search as soon as a match has been found, regardless
-/// of the [`MatchKind`] that the searcher was built with. This is configured
-/// via [`Input::earliest`].
+///   of the [`MatchKind`] that the searcher was built with. This is configured
+///   via [`Input::earliest`].
 ///
 /// For most cases, the defaults for all optional parameters are appropriate.
 /// The utility of this type is that it keeps the default or common case simple
@@ -36,7 +36,7 @@ use crate::util::primitives::PatternID;
 ///
 /// * The bounds represent a valid range into the input's haystack.
 /// * **or** the end bound is a valid ending bound for the haystack *and*
-/// the start bound is exactly one greater than the end bound.
+///   the start bound is exactly one greater than the end bound.
 ///
 /// In the latter case, [`Input::is_done`] will return true and indicates any
 /// search receiving such an input should immediately return with no match.
@@ -195,18 +195,18 @@ impl<'h> Input<'h> {
     /// depending on the type of searcher used and its configuration:
     ///
     /// * [`noncontiguous::NFA`](crate::nfa::noncontiguous::NFA) always
-    /// supports both unanchored and anchored searches.
+    ///   supports both unanchored and anchored searches.
     /// * [`contiguous::NFA`](crate::nfa::contiguous::NFA) always supports both
-    /// unanchored and anchored searches.
+    ///   unanchored and anchored searches.
     /// * [`dfa::DFA`](crate::dfa::DFA) supports only unanchored
-    /// searches by default.
-    /// [`dfa::Builder::start_kind`](crate::dfa::Builder::start_kind) can
-    /// be used to change the default to supporting both kinds of searches
-    /// or even just anchored searches.
+    ///   searches by default.
+    ///   [`dfa::Builder::start_kind`](crate::dfa::Builder::start_kind) can
+    ///   be used to change the default to supporting both kinds of searches
+    ///   or even just anchored searches.
     /// * [`AhoCorasick`](crate::AhoCorasick) inherits the same setup as a
-    /// `DFA`. Namely, it only supports unanchored searches by default, but
-    /// [`AhoCorasickBuilder::start_kind`](crate::AhoCorasickBuilder::start_kind)
-    /// can change this.
+    ///   `DFA`. Namely, it only supports unanchored searches by default, but
+    ///   [`AhoCorasickBuilder::start_kind`](crate::AhoCorasickBuilder::start_kind)
+    ///   can change this.
     ///
     /// If you try to execute a search using a `try_` ("fallible") method with
     /// an unsupported anchor mode, then an error will be returned. For calls

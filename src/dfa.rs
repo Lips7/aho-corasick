@@ -40,7 +40,7 @@ use crate::{
 ///
 /// * All states use a dense representation for their transitions.
 /// * All failure transitions are pre-computed such that they are never
-/// explicitly handled at search time.
+///   explicitly handled at search time.
 ///
 /// These two facts combined mean that every state transition is performed
 /// using a constant number of instructions. However, this comes at
@@ -359,7 +359,7 @@ impl core::fmt::Debug for DFA {
                     )?;
                 }
             }
-            write!(f, "\n")?;
+            writeln!(f)?;
             if self.is_match(sid) {
                 write!(f, " matches: ")?;
                 for i in 0..self.match_len(sid) {
@@ -369,7 +369,7 @@ impl core::fmt::Debug for DFA {
                     let pid = self.match_pattern(sid, i);
                     write!(f, "{}", pid.as_usize())?;
                 }
-                write!(f, "\n")?;
+                writeln!(f)?;
             }
         }
         writeln!(f, "match kind: {:?}", self.match_kind)?;
@@ -441,7 +441,7 @@ impl Builder {
     ) -> Result<DFA, BuildError> {
         debug!("building DFA");
         let byte_classes = if self.byte_classes {
-            nnfa.byte_classes().clone()
+            *nnfa.byte_classes()
         } else {
             ByteClasses::singletons()
         };
@@ -708,9 +708,9 @@ impl Builder {
                 );
             }
         }
-        for i in 0..dfa.state_len {
+        for (i, &is_anchhor) in is_anchored.iter().enumerate().take(dfa.state_len) {
             let sid = i << stride2;
-            if is_anchored[i] {
+            if is_anchhor {
                 for next in dfa.trans[sid..][..stride].iter_mut() {
                     *next = remap_anchored[*next];
                 }

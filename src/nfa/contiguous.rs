@@ -346,7 +346,7 @@ impl core::fmt::Debug for NFA {
                 state.fail.as_usize()
             )?;
             state.fmt(f)?;
-            write!(f, "\n")?;
+            writeln!(f)?;
             if self.is_match(sid) {
                 write!(f, "         matches: ")?;
                 for i in 0..state.match_len {
@@ -356,7 +356,7 @@ impl core::fmt::Debug for NFA {
                     }
                     write!(f, "{}", pid.as_usize())?;
                 }
-                write!(f, "\n")?;
+                writeln!(f)?;
             }
             // The FAIL state doesn't actually have space for a state allocated
             // for it, so we have to treat it as a special case. write below
@@ -944,7 +944,7 @@ impl Builder {
     ) -> Result<NFA, BuildError> {
         debug!("building contiguous NFA");
         let byte_classes = if self.byte_classes {
-            nnfa.byte_classes().clone()
+            *nnfa.byte_classes()
         } else {
             ByteClasses::singletons()
         };
@@ -953,7 +953,7 @@ impl Builder {
             repr: vec![],
             pattern_lens: nnfa.pattern_lens_raw().to_vec(),
             state_len: nnfa.states().len(),
-            prefilter: nnfa.prefilter().map(|p| p.clone()),
+            prefilter: nnfa.prefilter().cloned(),
             match_kind: nnfa.match_kind(),
             alphabet_len: byte_classes.alphabet_len(),
             byte_classes,

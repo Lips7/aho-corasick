@@ -2,7 +2,6 @@ use core::{
     cmp,
     fmt::Debug,
     panic::{RefUnwindSafe, UnwindSafe},
-    u8,
 };
 
 use alloc::{sync::Arc, vec, vec::Vec};
@@ -479,6 +478,7 @@ impl core::fmt::Debug for RareByteOffsets {
 /// Offsets associated with an occurrence of a "rare" byte in any of the
 /// patterns used to construct a single Aho-Corasick automaton.
 #[derive(Clone, Copy, Debug)]
+#[derive(Default)]
 struct RareByteOffset {
     /// The maximum offset at which a particular byte occurs from the start
     /// of any pattern. This is used as a shift amount. That is, when an
@@ -496,11 +496,6 @@ struct RareByteOffset {
     max: u8,
 }
 
-impl Default for RareByteOffset {
-    fn default() -> RareByteOffset {
-        RareByteOffset { max: 0 }
-    }
-}
 
 impl RareByteOffset {
     /// Create a new rare byte offset. If the given offset is too big, then
@@ -907,9 +902,9 @@ impl PrefilterI for StartBytesThree {
 /// e.g., Given `b'A'`, this returns `b'a'`, and given `b'a'`, this returns
 /// `b'A'`. If a non-ASCII letter is given, then the given byte is returned.
 pub(crate) fn opposite_ascii_case(b: u8) -> u8 {
-    if b'A' <= b && b <= b'Z' {
+    if b.is_ascii_uppercase() {
         b.to_ascii_lowercase()
-    } else if b'a' <= b && b <= b'z' {
+    } else if b.is_ascii_lowercase() {
         b.to_ascii_uppercase()
     } else {
         b

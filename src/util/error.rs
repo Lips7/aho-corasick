@@ -119,10 +119,10 @@ impl core::fmt::Display for BuildError {
 /// Examples of misconfiguration:
 ///
 /// * Executing a stream or overlapping search on a searcher that was built was
-/// something other than [`MatchKind::Standard`](crate::MatchKind::Standard)
-/// semantics.
+///   something other than [`MatchKind::Standard`](crate::MatchKind::Standard)
+///   semantics.
 /// * Requested an anchored or an unanchored search on a searcher that doesn't
-/// support unanchored or anchored searches, respectively.
+///   support unanchored or anchored searches, respectively.
 ///
 /// When the `std` feature is enabled, this implements the `std::error::Error`
 /// trait.

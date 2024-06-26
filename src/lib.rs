@@ -21,13 +21,13 @@ match semantics means, see the [`MatchKind`] type.
 This section gives a brief overview of the primary types in this crate:
 
 * [`AhoCorasick`] is the primary type and represents an Aho-Corasick automaton.
-This is the type you use to execute searches.
+  This is the type you use to execute searches.
 * [`AhoCorasickBuilder`] can be used to build an Aho-Corasick automaton, and
-supports configuring a number of options.
+  supports configuring a number of options.
 * [`Match`] represents a single match reported by an Aho-Corasick automaton.
-Each match has two pieces of information: the pattern that matched and the
-start and end byte offsets corresponding to the position in the haystack at
-which it matched.
+  Each match has two pieces of information: the pattern that matched and the
+  start and end byte offsets corresponding to the position in the haystack at
+  which it matched.
 
 # Example: basic searching
 
@@ -180,20 +180,20 @@ needed finer grained control, some parts of them may be useful to you. Here is
 a brief overview of each and why you might want to use them:
 
 * The [`packed`] sub-module contains a lower level API for using fast
-vectorized routines for finding a small number of patterns in a haystack.
-You might want to use this API when you want to completely side-step using
-Aho-Corasick automata. Otherwise, the fast vectorized routines are used
-automatically as prefilters for `AhoCorasick` searches whenever possible.
+  vectorized routines for finding a small number of patterns in a haystack.
+  You might want to use this API when you want to completely side-step using
+  Aho-Corasick automata. Otherwise, the fast vectorized routines are used
+  automatically as prefilters for `AhoCorasick` searches whenever possible.
 * The [`automaton`] sub-module provides a lower level finite state
-machine interface that the various Aho-Corasick implementations in
-this crate implement. This sub-module's main contribution is the
-[`Automaton`](automaton::Automaton) trait, which permits manually walking the
-state transitions of an Aho-Corasick automaton.
+  machine interface that the various Aho-Corasick implementations in
+  this crate implement. This sub-module's main contribution is the
+  [`Automaton`](automaton::Automaton) trait, which permits manually walking the
+  state transitions of an Aho-Corasick automaton.
 * The [`dfa`] and [`nfa`] sub-modules provide DFA and NFA implementations of
-the aforementioned `Automaton` trait. The main reason one might want to use
-these sub-modules is to get access to a type that implements the `Automaton`
-trait. (The top-level `AhoCorasick` type does not implement the `Automaton`
-trait.)
+  the aforementioned `Automaton` trait. The main reason one might want to use
+  these sub-modules is to get access to a type that implements the `Automaton`
+  trait. (The top-level `AhoCorasick` type does not implement the `Automaton`
+  trait.)
 
 As mentioned above, if you aren't sure whether you need these sub-modules,
 you should be able to safely ignore them and just focus on the [`AhoCorasick`]

@@ -12,19 +12,19 @@ contiguous. The names reflect their internal representation, and consequently,
 the trade offs associated with them:
 
 * A [`noncontiguous::NFA`] uses a separate allocation for every NFA state to
-represent its transitions in a sparse format. This is ideal for building an
-NFA, since it cheaply permits different states to have a different number of
-transitions. A noncontiguous NFA is where the main Aho-Corasick construction
-algorithm is implemented. All other Aho-Corasick implementations are built by
-first constructing a noncontiguous NFA.
+  represent its transitions in a sparse format. This is ideal for building an
+  NFA, since it cheaply permits different states to have a different number of
+  transitions. A noncontiguous NFA is where the main Aho-Corasick construction
+  algorithm is implemented. All other Aho-Corasick implementations are built by
+  first constructing a noncontiguous NFA.
 * A [`contiguous::NFA`] is uses a single allocation to represent all states,
-while still encoding most states as sparse states but permitting states near
-the starting state to have a dense representation. The dense representation
-uses more memory, but permits computing transitions during a search more
-quickly. By only making the most active states dense (the states near the
-starting state), a contiguous NFA better balances memory usage with search
-speed. The single contiguous allocation also uses less overhead per state and
-enables compression tricks where most states only use 8 bytes of heap memory.
+  while still encoding most states as sparse states but permitting states near
+  the starting state to have a dense representation. The dense representation
+  uses more memory, but permits computing transitions during a search more
+  quickly. By only making the most active states dense (the states near the
+  starting state), a contiguous NFA better balances memory usage with search
+  speed. The single contiguous allocation also uses less overhead per state and
+  enables compression tricks where most states only use 8 bytes of heap memory.
 
 When given the choice between these two, you almost always want to pick a
 contiguous NFA. It takes only a little longer to build, but both its memory

@@ -429,16 +429,16 @@ trait SearcherT:
     /// * Both `start` and `end` must be valid for reads.
     /// * Both `start` and `end` must point to an initialized value.
     /// * Both `start` and `end` must point to the same allocated object and
-    /// must either be in bounds or at most one byte past the end of the
-    /// allocated object.
+    ///   must either be in bounds or at most one byte past the end of the
+    ///   allocated object.
     /// * Both `start` and `end` must be _derived from_ a pointer to the same
-    /// object.
+    ///   object.
     /// * The distance between `start` and `end` must not overflow `isize`.
     /// * The distance being in bounds must not rely on "wrapping around" the
-    /// address space.
+    ///   address space.
     /// * It must be the case that `start <= end`.
     /// * `end - start` must be greater than the minimum length for this
-    /// searcher.
+    ///   searcher.
     ///
     /// Also, it is expected that implementations of this trait will tag this
     /// method with a `target_feature` attribute. Callers must ensure that
@@ -742,6 +742,7 @@ mod aarch64 {
                 /// Creates a new searcher using "slim" Teddy with 128-bit
                 /// vectors. If SSSE3 is not available in the current
                 /// environment, then this returns `None`.
+                #[allow(clippy::new_ret_no_self)]
                 pub(super) fn new(
                     patterns: &Arc<Patterns>,
                 ) -> Option<Searcher> {

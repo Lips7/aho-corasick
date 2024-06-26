@@ -126,7 +126,7 @@ const PACKED_LEFTMOST_LONGEST: TestCollection =
 /// A collection of tests for the that should always be true regardless of
 /// match semantics. That is, all combinations of leftmost-{first, longest}
 /// should produce the same answer.
-const BASICS: &'static [SearchTest] = &[
+const BASICS: &[SearchTest] = &[
     t!(basic001, &["a"], "", &[]),
     t!(basic010, &["a"], "a", &[(0, 0, 1)]),
     t!(basic020, &["a"], "aa", &[(0, 0, 1), (0, 1, 2)]),
@@ -197,7 +197,7 @@ const BASICS: &'static [SearchTest] = &[
 /// leftmost-first and leftmost-longest match kinds. Stated differently, among
 /// ambiguous matches, the longest match and the match that appeared first when
 /// constructing the automaton should always be the same.
-const LEFTMOST: &'static [SearchTest] = &[
+const LEFTMOST: &[SearchTest] = &[
     t!(leftmost000, &["ab", "ab"], "abcd", &[(0, 0, 2)]),
     t!(leftmost030, &["a", "ab"], "aa", &[(0, 0, 1), (0, 1, 2)]),
     t!(leftmost031, &["ab", "a"], "aa", &[(1, 0, 1), (1, 1, 2)]),
@@ -249,7 +249,7 @@ const LEFTMOST: &'static [SearchTest] = &[
 /// Tests for non-overlapping leftmost-first match semantics. These tests
 /// should generally be specific to leftmost-first, which means they should
 /// generally fail under leftmost-longest semantics.
-const LEFTMOST_FIRST: &'static [SearchTest] = &[
+const LEFTMOST_FIRST: &[SearchTest] = &[
     t!(leftfirst000, &["ab", "abcd"], "abcd", &[(0, 0, 2)]),
     t!(leftfirst020, &["abcd", "ab"], "abcd", &[(0, 0, 4)]),
     t!(leftfirst030, &["ab", "ab"], "abcd", &[(0, 0, 2)]),
@@ -281,7 +281,7 @@ const LEFTMOST_FIRST: &'static [SearchTest] = &[
 /// Tests for non-overlapping leftmost-longest match semantics. These tests
 /// should generally be specific to leftmost-longest, which means they should
 /// generally fail under leftmost-first semantics.
-const LEFTMOST_LONGEST: &'static [SearchTest] = &[
+const LEFTMOST_LONGEST: &[SearchTest] = &[
     t!(leftlong000, &["ab", "abcd"], "abcd", &[(1, 0, 4)]),
     t!(leftlong010, &["abcd", "bcd", "cd", "b"], "abcd", &[(0, 0, 4),]),
     t!(leftlong040, &["a", "ab"], "a", &[(0, 0, 1)]),
@@ -306,7 +306,7 @@ const LEFTMOST_LONGEST: &'static [SearchTest] = &[
 ///
 /// If regression tests are needed for specific match semantics, then add them
 /// to the appropriate group above.
-const REGRESSION: &'static [SearchTest] = &[
+const REGRESSION: &[SearchTest] = &[
     t!(regression010, &["inf", "ind"], "infind", &[(0, 0, 3), (1, 3, 6),]),
     t!(regression020, &["ind", "inf"], "infind", &[(1, 0, 3), (0, 3, 6),]),
     t!(
@@ -335,7 +335,7 @@ const REGRESSION: &'static [SearchTest] = &[
     ),
 ];
 
-const TEDDY: &'static [SearchTest] = &[
+const TEDDY: &[SearchTest] = &[
     t!(
         teddy010,
         &["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"],

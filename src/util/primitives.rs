@@ -7,21 +7,21 @@ This list represents the principle types in this module and briefly describes
 when you might want to use them.
 
 * [`PatternID`] - A type that represents the identifier of a regex pattern.
-This is probably the most widely used type in this module (which is why it's
-also re-exported in the crate root).
+  This is probably the most widely used type in this module (which is why it's
+  also re-exported in the crate root).
 * [`StateID`] - A type the represents the identifier of a finite automaton
-state. This is used for both NFAs and DFAs, with the notable exception of
-the hybrid NFA/DFA. (The hybrid NFA/DFA uses a special purpose "lazy" state
-identifier.)
+  state. This is used for both NFAs and DFAs, with the notable exception of
+  the hybrid NFA/DFA. (The hybrid NFA/DFA uses a special purpose "lazy" state
+  identifier.)
 * [`SmallIndex`] - The internal representation of both a `PatternID` and a
-`StateID`. Its purpose is to serve as a type that can index memory without
-being as big as a `usize` on 64-bit targets. The main idea behind this type
-is that there are many things in regex engines that will, in practice, never
-overflow a 32-bit integer. (For example, like the number of patterns in a regex
-or the number of states in an NFA.) Thus, a `SmallIndex` can be used to index
-memory without peppering `as` casts everywhere. Moreover, it forces callers
-to handle errors in the case where, somehow, the value would otherwise overflow
-either a 32-bit integer or a `usize` (e.g., on 16-bit targets).
+  `StateID`. Its purpose is to serve as a type that can index memory without
+  being as big as a `usize` on 64-bit targets. The main idea behind this type
+  is that there are many things in regex engines that will, in practice, never
+  overflow a 32-bit integer. (For example, like the number of patterns in a regex
+  or the number of states in an NFA.) Thus, a `SmallIndex` can be used to index
+  memory without peppering `as` casts everywhere. Moreover, it forces callers
+  to handle errors in the case where, somehow, the value would otherwise overflow
+  either a 32-bit integer or a `usize` (e.g., on 16-bit targets).
 */
 
 // The macro we use to define some types below adds methods that we don't
@@ -71,7 +71,7 @@ use crate::util::int::{Usize, U16, U32, U64};
 ///
 /// * [`PatternID`] is for representing the identifiers of patterns.
 /// * [`StateID`] is for representing the identifiers of states in finite
-/// automata. It is used for both NFAs and DFAs.
+///   automata. It is used for both NFAs and DFAs.
 ///
 /// # Representation
 ///
@@ -103,12 +103,12 @@ impl SmallIndex {
     #[cfg(any(target_pointer_width = "32", target_pointer_width = "64"))]
     pub const MAX: SmallIndex =
         // FIXME: Use as_usize() once const functions in traits are stable.
-        SmallIndex::new_unchecked(core::i32::MAX as usize - 1);
+        SmallIndex::new_unchecked(i32::MAX as usize - 1);
 
     /// The maximum index value.
     #[cfg(target_pointer_width = "16")]
     pub const MAX: SmallIndex =
-        SmallIndex::new_unchecked(core::isize::MAX - 1);
+        SmallIndex::new_unchecked(isize::MAX - 1);
 
     /// The total number of values that can be represented as a small index.
     pub const LIMIT: usize = SmallIndex::MAX.as_usize() + 1;
@@ -234,7 +234,7 @@ impl SmallIndex {
     /// Return the underlying small index integer as raw bytes in native endian
     /// format.
     #[inline]
-    pub fn to_ne_bytes(&self) -> [u8; 4] {
+    pub fn to_ne_bytes(self) -> [u8; 4] {
         self.0.to_ne_bytes()
     }
 }

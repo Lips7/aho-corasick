@@ -123,13 +123,13 @@ use crate::{
 /// Examples of errors that can occur:
 ///
 /// * Running a search that requires [`MatchKind::Standard`] semantics (such
-/// as a stream or overlapping search) with an automaton that was built with
-/// [`MatchKind::LeftmostFirst`] or [`MatchKind::LeftmostLongest`] semantics.
+///   as a stream or overlapping search) with an automaton that was built with
+///   [`MatchKind::LeftmostFirst`] or [`MatchKind::LeftmostLongest`] semantics.
 /// * Running an anchored search with an automaton that only supports
-/// unanchored searches. (By default, `AhoCorasick` only supports unanchored
-/// searches. But this can be toggled with [`AhoCorasickBuilder::start_kind`].)
+///   unanchored searches. (By default, `AhoCorasick` only supports unanchored
+///   searches. But this can be toggled with [`AhoCorasickBuilder::start_kind`].)
 /// * Running an unanchored search with an automaton that only supports
-/// anchored searches.
+///   anchored searches.
 ///
 /// The common thread between the different types of errors is that they are
 /// all rooted in the automaton construction and search configurations. If
@@ -1091,10 +1091,10 @@ impl AhoCorasick {
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
     #[cfg(feature = "std")]
-    pub fn stream_find_iter<'a, R: std::io::Read>(
-        &'a self,
+    pub fn stream_find_iter<R: std::io::Read>(
+        &self,
         rdr: R,
-    ) -> StreamFindIter<'a, R> {
+    ) -> StreamFindIter<'_, R> {
         self.try_stream_find_iter(rdr)
             .expect("AhoCorasick::try_stream_find_iter should not fail")
     }
@@ -1862,10 +1862,10 @@ impl AhoCorasick {
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
     #[cfg(feature = "std")]
-    pub fn try_stream_find_iter<'a, R: std::io::Read>(
-        &'a self,
+    pub fn try_stream_find_iter<R: std::io::Read>(
+        &self,
         rdr: R,
-    ) -> Result<StreamFindIter<'a, R>, MatchError> {
+    ) -> Result<StreamFindIter<'_, R>, MatchError> {
         enforce_anchored_consistency(self.start_kind, Anchored::No)?;
         self.aut.try_stream_find_iter(rdr).map(StreamFindIter)
     }
@@ -2303,21 +2303,21 @@ impl<'a, R: std::io::Read> Iterator for StreamFindIter<'a, R> {
 /// # Quick advice
 ///
 /// * Use [`AhoCorasickBuilder::match_kind`] to configure your searcher
-/// with [`MatchKind::LeftmostFirst`] if you want to match how backtracking
-/// regex engines execute searches for `pat1|pat2|..|patN`. Use
-/// [`MatchKind::LeftmostLongest`] if you want to match how POSIX regex engines
-/// do it.
+///   with [`MatchKind::LeftmostFirst`] if you want to match how backtracking
+///   regex engines execute searches for `pat1|pat2|..|patN`. Use
+///   [`MatchKind::LeftmostLongest`] if you want to match how POSIX regex engines
+///   do it.
 /// * If you need an anchored search, use [`AhoCorasickBuilder::start_kind`] to
-/// set the [`StartKind::Anchored`] mode since [`StartKind::Unanchored`] is the
-/// default. Or just use [`StartKind::Both`] to support both types of searches.
+///   set the [`StartKind::Anchored`] mode since [`StartKind::Unanchored`] is the
+///   default. Or just use [`StartKind::Both`] to support both types of searches.
 /// * You might want to use [`AhoCorasickBuilder::kind`] to set your searcher
-/// to always use a [`AhoCorasickKind::DFA`] if search speed is critical and
-/// memory usage isn't a concern. Otherwise, not setting a kind will probably
-/// make the right choice for you. Beware that if you use [`StartKind::Both`]
-/// to build a searcher that supports both unanchored and anchored searches
-/// _and_ you set [`AhoCorasickKind::DFA`], then the DFA will essentially be
-/// duplicated to support both simultaneously. This results in very high memory
-/// usage.
+///   to always use a [`AhoCorasickKind::DFA`] if search speed is critical and
+///   memory usage isn't a concern. Otherwise, not setting a kind will probably
+///   make the right choice for you. Beware that if you use [`StartKind::Both`]
+///   to build a searcher that supports both unanchored and anchored searches
+///   _and_ you set [`AhoCorasickKind::DFA`], then the DFA will essentially be
+///   duplicated to support both simultaneously. This results in very high memory
+///   usage.
 /// * For all other options, their defaults are almost certainly what you want.
 #[derive(Clone, Debug, Default)]
 pub struct AhoCorasickBuilder {
@@ -2674,19 +2674,19 @@ impl AhoCorasickBuilder {
     /// Currently, there are four choices:
     ///
     /// * [`AhoCorasickKind::NoncontiguousNFA`] instructs the searcher to
-    /// use a [`noncontiguous::NFA`]. A noncontiguous NFA is the fastest to
-    /// be built, has moderate memory usage and is typically the slowest to
-    /// execute a search.
+    ///   use a [`noncontiguous::NFA`]. A noncontiguous NFA is the fastest to
+    ///   be built, has moderate memory usage and is typically the slowest to
+    ///   execute a search.
     /// * [`AhoCorasickKind::ContiguousNFA`] instructs the searcher to use a
-    /// [`contiguous::NFA`]. A contiguous NFA is a little slower to build than
-    /// a noncontiguous NFA, has excellent memory usage and is typically a
-    /// little slower than a DFA for a search.
+    ///   [`contiguous::NFA`]. A contiguous NFA is a little slower to build than
+    ///   a noncontiguous NFA, has excellent memory usage and is typically a
+    ///   little slower than a DFA for a search.
     /// * [`AhoCorasickKind::DFA`] instructs the searcher to use a
-    /// [`dfa::DFA`]. A DFA is very slow to build, uses exorbitant amounts of
-    /// memory, but will typically execute searches the fastest.
+    ///   [`dfa::DFA`]. A DFA is very slow to build, uses exorbitant amounts of
+    ///   memory, but will typically execute searches the fastest.
     /// * `None` (the default) instructs the searcher to choose the "best"
-    /// Aho-Corasick implementation. This choice is typically based primarily
-    /// on the number of patterns.
+    ///   Aho-Corasick implementation. This choice is typically based primarily
+    ///   on the number of patterns.
     ///
     /// Setting this configuration does not change the time complexity for
     /// constructing the Aho-Corasick automaton (which is `O(p)` where `p`

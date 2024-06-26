@@ -15,12 +15,12 @@ searcher directly.
 The primary types in this sub-module are:
 
 * [`Searcher`] executes the actual search algorithm to report matches in a
-haystack.
+  haystack.
 * [`Builder`] accumulates patterns incrementally and can construct a
-`Searcher`.
+  `Searcher`.
 * [`Config`] permits tuning the searcher, and itself will produce a `Builder`
-(which can then be used to build a `Searcher`). Currently, the only tuneable
-knob are the match semantics, but this may be expanded in the future.
+  (which can then be used to build a `Searcher`). Currently, the only tuneable
+  knob are the match semantics, but this may be expanded in the future.
 
 # Examples
 
