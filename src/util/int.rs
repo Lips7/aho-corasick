@@ -218,7 +218,7 @@ impl Usize for usize {
         }
         #[cfg(not(debug_assertions))]
         {
-            self as u8
+            *self as u8
         }
     }
 
@@ -229,7 +229,7 @@ impl Usize for usize {
         }
         #[cfg(not(debug_assertions))]
         {
-            self as u16
+            *self as u16
         }
     }
 
@@ -240,7 +240,7 @@ impl Usize for usize {
         }
         #[cfg(not(debug_assertions))]
         {
-            self as u32
+            *self as u32
         }
     }
 
