@@ -708,7 +708,9 @@ impl Builder {
                 );
             }
         }
-        for (i, &is_anchhor) in is_anchored.iter().enumerate().take(dfa.state_len) {
+        for (i, &is_anchhor) in
+            is_anchored.iter().enumerate().take(dfa.state_len)
+        {
             let sid = i << stride2;
             if is_anchhor {
                 for next in dfa.trans[sid..][..stride].iter_mut() {

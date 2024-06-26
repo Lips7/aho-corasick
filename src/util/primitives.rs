@@ -107,8 +107,7 @@ impl SmallIndex {
 
     /// The maximum index value.
     #[cfg(target_pointer_width = "16")]
-    pub const MAX: SmallIndex =
-        SmallIndex::new_unchecked(isize::MAX - 1);
+    pub const MAX: SmallIndex = SmallIndex::new_unchecked(isize::MAX - 1);
 
     /// The total number of values that can be represented as a small index.
     pub const LIMIT: usize = SmallIndex::MAX.as_usize() + 1;

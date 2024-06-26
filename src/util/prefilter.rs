@@ -477,8 +477,7 @@ impl core::fmt::Debug for RareByteOffsets {
 
 /// Offsets associated with an occurrence of a "rare" byte in any of the
 /// patterns used to construct a single Aho-Corasick automaton.
-#[derive(Clone, Copy, Debug)]
-#[derive(Default)]
+#[derive(Clone, Copy, Debug, Default)]
 struct RareByteOffset {
     /// The maximum offset at which a particular byte occurs from the start
     /// of any pattern. This is used as a shift amount. That is, when an
@@ -495,7 +494,6 @@ struct RareByteOffset {
     /// than 255 bytes, then the entire rare byte prefilter is disabled.
     max: u8,
 }
-
 
 impl RareByteOffset {
     /// Create a new rare byte offset. If the given offset is too big, then
