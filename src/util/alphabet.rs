@@ -95,7 +95,7 @@ impl ByteClasses {
     /// Get the equivalence class for the given byte.
     #[inline]
     pub(crate) fn get(&self, byte: u8) -> u8 {
-        self.0[usize::from(byte)]
+        *unsafe { self.0.get_unchecked(usize::from(byte)) }
     }
 
     /// Return the total number of elements in the alphabet represented by

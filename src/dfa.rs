@@ -226,7 +226,10 @@ unsafe impl Automaton for DFA {
         byte: u8,
     ) -> StateID {
         let class = self.byte_classes.get(byte);
-        self.trans[(sid.as_u32() + u32::from(class)).as_usize()]
+        *unsafe {
+            self.trans
+                .get_unchecked(sid.as_usize() + u32::from(class).as_usize())
+        }
     }
 
     #[inline(always)]
@@ -262,7 +265,7 @@ unsafe impl Automaton for DFA {
 
     #[inline(always)]
     fn pattern_len(&self, pid: PatternID) -> usize {
-        self.pattern_lens[pid].as_usize()
+        unsafe { self.pattern_lens.get_unchecked(pid.as_usize()) }.as_usize()
     }
 
     #[inline(always)]
@@ -279,14 +282,14 @@ unsafe impl Automaton for DFA {
     fn match_len(&self, sid: StateID) -> usize {
         debug_assert!(self.is_match(sid));
         let offset = (sid.as_usize() >> self.stride2) - 2;
-        self.matches[offset].len()
+        unsafe { self.matches.get_unchecked(offset) }.len()
     }
 
     #[inline(always)]
     fn match_pattern(&self, sid: StateID, index: usize) -> PatternID {
         debug_assert!(self.is_match(sid));
         let offset = (sid.as_usize() >> self.stride2) - 2;
-        self.matches[offset][index]
+        *unsafe { self.matches.get_unchecked(offset).get_unchecked(index) }
     }
 
     #[inline(always)]

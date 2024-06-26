@@ -1315,11 +1315,14 @@ fn try_find_fwd_imp<A: Automaton + ?Sized>(
         // 'Automaton' trait with a default impl that uses 'next_state'. Then
         // use 'aut.next_state_unchecked' here and implement it on DFA using
         // unchecked slice index acces.)
-        sid = aut.next_state(anchored, sid, input.haystack()[at]);
+        sid = aut.next_state(anchored, sid, *unsafe {
+            input.haystack().get_unchecked(at)
+        });
         if aut.is_special(sid) {
             if aut.is_dead(sid) {
                 return Ok(mat);
-            } else if aut.is_match(sid) {
+            }
+            if aut.is_match(sid) {
                 // We use 'at + 1' here because the match state is entered
                 // at the last byte of the pattern. Since we use half-open
                 // intervals, the end of the range of the match is one past the
@@ -1489,20 +1492,20 @@ fn try_find_overlapping_fwd_imp<A: Automaton + ?Sized>(
         }
     };
     while state.at < input.end() {
-        sid = aut.next_state(
-            input.get_anchored(),
-            sid,
-            input.haystack()[state.at],
-        );
+        sid = aut.next_state(input.get_anchored(), sid, *unsafe {
+            input.haystack().get_unchecked(state.at)
+        });
         if aut.is_special(sid) {
             state.id = Some(sid);
             if aut.is_dead(sid) {
                 return Ok(());
-            } else if aut.is_match(sid) {
+            }
+            if aut.is_match(sid) {
                 state.next_match_index = Some(1);
                 state.mat = Some(get_match(aut, sid, 0, state.at + 1));
                 return Ok(());
-            } else if let Some(pre) = pre {
+            }
+            if let Some(pre) = pre {
                 // If we're here, we know it's a special state that is not a
                 // dead or a match state AND that a prefilter is active. Thus,
                 // it must be a start state.
