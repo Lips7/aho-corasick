@@ -1,6 +1,6 @@
 [package]
-name = "aho-corasick"
-version = "1.1.4"
+name = "aho-corasick-unsafe"
+version = "0.0.1"
 authors = ["Andrew Gallant <jamslam@gmail.com>"]
 description = "Fast multiple substring searching."
 homepage = "https://github.com/BurntSushi/aho-corasick"
@@ -15,7 +15,7 @@ edition = "2021"
 rust-version = "1.60.0"
 
 [lib]
-name = "aho_corasick"
+name = "aho_corasick_unsafe"
 
 [features]
 default = ["std", "perf-literal"]
