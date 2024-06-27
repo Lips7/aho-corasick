@@ -28,6 +28,7 @@ use core::{
 pub(crate) trait Vector:
     Copy + Debug + Send + Sync + UnwindSafe + RefUnwindSafe
 {
+    #[allow(dead_code)]
     /// The number of bits in the vector.
     const BITS: usize;
     /// The number of bytes in the vector. That is, this is the size of the
@@ -63,6 +64,7 @@ pub(crate) trait Vector:
     /// the current CPU.
     unsafe fn is_zero(self) -> bool;
 
+    #[allow(dead_code)]
     /// Do an 8-bit pairwise equality check. If lane `i` is equal in this
     /// vector and the one given, then lane `i` in the resulting vector is set
     /// to `0xFF`. Otherwise, it is set to `0x00`.
