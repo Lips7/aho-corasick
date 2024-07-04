@@ -70,7 +70,7 @@ use crate::{
 /// [`Automaton::try_find`]:
 ///
 /// ```
-/// use aho_corasick::{
+/// use aho_corasick_unsafe::{
 ///     automaton::Automaton,
 ///     nfa::contiguous::NFA,
 ///     Input, Match,
@@ -196,57 +196,72 @@ unsafe impl Automaton for NFA {
         let repr = &self.repr;
         let class = self.byte_classes.get(byte);
         let u32tosid = StateID::from_u32_unchecked;
-        loop {
-            let o = sid.as_usize();
-            let kind = repr[o] & 0xFF;
-            // I tried to encapsulate the "next transition" logic into its own
-            // function, but it seemed to always result in sub-optimal codegen
-            // that led to real and significant slowdowns. So we just inline
-            // the logic here.
-            //
-            // I've also tried a lot of different ways to speed up this
-            // routine, and most of them have failed.
-            if kind == State::KIND_DENSE {
-                let next = u32tosid(repr[o + 2 + usize::from(class)]);
-                if next != NFA::FAIL {
-                    return next;
+        unsafe {
+            loop {
+                let o = sid.as_usize();
+                let kind = repr.get_unchecked(o) & 0xFF;
+                // I tried to encapsulate the "next transition" logic into its own
+                // function, but it seemed to always result in sub-optimal codegen
+                // that led to real and significant slowdowns. So we just inline
+                // the logic here.
+                //
+                // I've also tried a lot of different ways to speed up this
+                // routine, and most of them have failed.
+                if kind == State::KIND_DENSE {
+                    let next = u32tosid(
+                        *repr.get_unchecked(o + 2 + usize::from(class)),
+                    );
+                    if next != NFA::FAIL {
+                        return next;
+                    }
+                } else if kind == State::KIND_ONE {
+                    if class == repr.get_unchecked(o).low_u16().high_u8() {
+                        return u32tosid(*repr.get_unchecked(o + 2));
+                    }
+                } else {
+                    // NOTE: I tried a SWAR technique in the loop below, but found
+                    // it slower. See the 'swar' test in the tests for this module.
+                    let trans_len = kind.as_usize();
+                    let classes_len = u32_len(trans_len);
+                    let trans_offset = o + 2 + classes_len;
+                    for (i, &chunk) in repr
+                        .get_unchecked(o + 2..)
+                        .get_unchecked(..classes_len)
+                        .iter()
+                        .enumerate()
+                    {
+                        let classes = chunk.to_ne_bytes();
+                        if *classes.get_unchecked(0) == class {
+                            return u32tosid(
+                                *repr.get_unchecked(trans_offset + i * 4),
+                            );
+                        }
+                        if *classes.get_unchecked(1) == class {
+                            return u32tosid(
+                                *repr.get_unchecked(trans_offset + i * 4 + 1),
+                            );
+                        }
+                        if *classes.get_unchecked(2) == class {
+                            return u32tosid(
+                                *repr.get_unchecked(trans_offset + i * 4 + 2),
+                            );
+                        }
+                        if *classes.get_unchecked(3) == class {
+                            return u32tosid(
+                                *repr.get_unchecked(trans_offset + i * 4 + 3),
+                            );
+                        }
+                    }
                 }
-            } else if kind == State::KIND_ONE {
-                if class == repr[o].low_u16().high_u8() {
-                    return u32tosid(repr[o + 2]);
+                // For an anchored search, we never follow failure transitions
+                // because failure transitions lead us down a path to matching
+                // a *proper* suffix of the path we were on. Thus, it can only
+                // produce matches that appear after the beginning of the search.
+                if anchored.is_anchored() {
+                    return NFA::DEAD;
                 }
-            } else {
-                // NOTE: I tried a SWAR technique in the loop below, but found
-                // it slower. See the 'swar' test in the tests for this module.
-                let trans_len = kind.as_usize();
-                let classes_len = u32_len(trans_len);
-                let trans_offset = o + 2 + classes_len;
-                for (i, &chunk) in
-                    repr[o + 2..][..classes_len].iter().enumerate()
-                {
-                    let classes = chunk.to_ne_bytes();
-                    if classes[0] == class {
-                        return u32tosid(repr[trans_offset + i * 4]);
-                    }
-                    if classes[1] == class {
-                        return u32tosid(repr[trans_offset + i * 4 + 1]);
-                    }
-                    if classes[2] == class {
-                        return u32tosid(repr[trans_offset + i * 4 + 2]);
-                    }
-                    if classes[3] == class {
-                        return u32tosid(repr[trans_offset + i * 4 + 3]);
-                    }
-                }
+                sid = u32tosid(repr[o + 1]);
             }
-            // For an anchored search, we never follow failure transitions
-            // because failure transitions lead us down a path to matching
-            // a *proper* suffix of the path we were on. Thus, it can only
-            // produce matches that appear after the beginning of the search.
-            if anchored.is_anchored() {
-                return NFA::DEAD;
-            }
-            sid = u32tosid(repr[o + 1]);
         }
     }
 
@@ -283,7 +298,7 @@ unsafe impl Automaton for NFA {
 
     #[inline(always)]
     fn pattern_len(&self, pid: PatternID) -> usize {
-        self.pattern_lens[pid].as_usize()
+        unsafe { self.pattern_lens.get_unchecked(pid.as_usize()) }.as_usize()
     }
 
     #[inline(always)]
@@ -298,14 +313,16 @@ unsafe impl Automaton for NFA {
 
     #[inline(always)]
     fn match_len(&self, sid: StateID) -> usize {
-        State::match_len(self.alphabet_len, &self.repr[sid.as_usize()..])
+        State::match_len(self.alphabet_len, unsafe {
+            &self.repr.get_unchecked(sid.as_usize()..)
+        })
     }
 
     #[inline(always)]
     fn match_pattern(&self, sid: StateID, index: usize) -> PatternID {
         State::match_pattern(
             self.alphabet_len,
-            &self.repr[sid.as_usize()..],
+            unsafe { &self.repr.get_unchecked(sid.as_usize()..) },
             index,
         )
     }
@@ -571,7 +588,7 @@ impl<'a> State<'a> {
     /// be legal to call this method on such a state.
     #[inline(always)]
     fn sparse_trans_len(state: &[u32]) -> usize {
-        (state[State::KIND] & 0xFF).as_usize()
+        (*unsafe { state.get_unchecked(State::KIND) } & 0xFF).as_usize()
     }
 
     /// Returns the total number of matching pattern IDs in this state. Calling
@@ -587,12 +604,12 @@ impl<'a> State<'a> {
         // match state.
         let packed = if State::kind(state) == State::KIND_DENSE {
             let start = 2 + alphabet_len;
-            state[start].as_usize()
+            unsafe { state.get_unchecked(start) }.as_usize()
         } else {
             let trans_len = State::sparse_trans_len(state);
             let classes_len = u32_len(trans_len);
             let start = 2 + classes_len + trans_len;
-            state[start].as_usize()
+            unsafe { state.get_unchecked(start) }.as_usize()
         };
         if packed & (1 << 31) == 0 {
             packed
@@ -626,9 +643,9 @@ impl<'a> State<'a> {
             let classes_len = u32_len(trans_len);
             2 + classes_len + trans_len
         };
-        let packed = state[start];
+        let packed = *unsafe { state.get_unchecked(start) };
         let pid = if packed & (1 << 31) == 0 {
-            state[start + 1 + index]
+            *unsafe { state.get_unchecked(start + 1 + index) }
         } else {
             assert_eq!(0, index);
             packed & !(1 << 31)

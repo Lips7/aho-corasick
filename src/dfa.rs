@@ -70,7 +70,7 @@ use crate::{
 /// [`Automaton::try_find`]:
 ///
 /// ```
-/// use aho_corasick::{
+/// use aho_corasick_unsafe::{
 ///     automaton::Automaton,
 ///     dfa::DFA,
 ///     Input, Match,

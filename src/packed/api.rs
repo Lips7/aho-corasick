@@ -60,7 +60,7 @@ impl Default for MatchKind {
 /// default (leftmost-first).
 ///
 /// ```
-/// use aho_corasick::{packed::{Config, MatchKind}, PatternID};
+/// use aho_corasick_unsafe::{packed::{Config, MatchKind}, PatternID};
 ///
 /// # fn example() -> Option<()> {
 /// let searcher = Config::new()
@@ -207,7 +207,7 @@ impl Config {
 /// default, leftmost-first match semantics are used.
 ///
 /// ```
-/// use aho_corasick::{packed::{Builder, MatchKind}, PatternID};
+/// use aho_corasick_unsafe::{packed::{Builder, MatchKind}, PatternID};
 ///
 /// # fn example() -> Option<()> {
 /// let searcher = Builder::new()
@@ -379,7 +379,7 @@ impl Default for Builder {
 /// By default, leftmost-first match semantics are used.
 ///
 /// ```
-/// use aho_corasick::{packed::{MatchKind, Searcher}, PatternID};
+/// use aho_corasick_unsafe::{packed::{MatchKind, Searcher}, PatternID};
 ///
 /// # fn example() -> Option<()> {
 /// let searcher = Searcher::new(["foobar", "foo"].iter().cloned())?;
@@ -424,7 +424,7 @@ impl Searcher {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::{packed::{MatchKind, Searcher}, PatternID};
+    /// use aho_corasick_unsafe::{packed::{MatchKind, Searcher}, PatternID};
     ///
     /// # fn example() -> Option<()> {
     /// let searcher = Searcher::new(["foobar", "foo"].iter().cloned())?;
@@ -475,7 +475,7 @@ impl Searcher {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::{packed::{MatchKind, Searcher}, PatternID};
+    /// use aho_corasick_unsafe::{packed::{MatchKind, Searcher}, PatternID};
     ///
     /// # fn example() -> Option<()> {
     /// let searcher = Searcher::new(["foobar", "foo"].iter().cloned())?;
@@ -512,7 +512,7 @@ impl Searcher {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::{packed::{MatchKind, Searcher}, PatternID, Span};
+    /// use aho_corasick_unsafe::{packed::{MatchKind, Searcher}, PatternID, Span};
     ///
     /// # fn example() -> Option<()> {
     /// let haystack = "foofoobar";
@@ -558,7 +558,7 @@ impl Searcher {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::{packed::{MatchKind, Searcher}, PatternID};
+    /// use aho_corasick_unsafe::{packed::{MatchKind, Searcher}, PatternID};
     ///
     /// # fn example() -> Option<()> {
     /// let searcher = Searcher::new(["foobar", "foo"].iter().cloned())?;
@@ -598,7 +598,7 @@ impl Searcher {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::packed::{MatchKind, Searcher};
+    /// use aho_corasick_unsafe::packed::{MatchKind, Searcher};
     ///
     /// # fn example() -> Option<()> {
     /// let searcher = Searcher::new(["foobar", "foo"].iter().cloned())?;

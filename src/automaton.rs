@@ -131,7 +131,7 @@ impl<'a, T: private::Sealed + ?Sized> private::Sealed for &'a T {}
 /// that are needed to support certain `MatchKind` semantics.)
 ///
 /// ```
-/// use aho_corasick::{
+/// use aho_corasick_unsafe::{
 ///     automaton::Automaton,
 ///     nfa::noncontiguous::NFA,
 ///     Anchored, Match, MatchError, MatchKind,
@@ -748,7 +748,7 @@ unsafe impl<'a, A: Automaton + ?Sized> Automaton for &'a A {
 /// instead, but this shows how to correctly use an `OverlappingState`.
 ///
 /// ```
-/// use aho_corasick::{
+/// use aho_corasick_unsafe::{
 ///     automaton::OverlappingState,
 ///     AhoCorasick, Input, Match,
 /// };

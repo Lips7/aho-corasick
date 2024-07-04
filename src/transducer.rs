@@ -24,7 +24,7 @@ use crate::{
 /// those keys using an Aho-Corasick automaton.
 ///
 /// ```
-/// use aho_corasick::{nfa::contiguous::NFA, transducer::Unanchored};
+/// use aho_corasick_unsafe::{nfa::contiguous::NFA, transducer::Unanchored};
 /// use fst::{Automaton, IntoStreamer, Set, Streamer};
 ///
 /// let set = Set::from_iter(&["abcd", "bc", "bcd", "xyz"]).unwrap();
@@ -103,7 +103,7 @@ impl<A: Automaton> fst::Automaton for Unanchored<A> {
 /// those keys using an Aho-Corasick automaton.
 ///
 /// ```
-/// use aho_corasick::{nfa::contiguous::NFA, transducer::Anchored};
+/// use aho_corasick_unsafe::{nfa::contiguous::NFA, transducer::Anchored};
 /// use fst::{Automaton, IntoStreamer, Set, Streamer};
 ///
 /// let set = Set::from_iter(&["abcd", "bc", "bcd", "xyz"]).unwrap();
@@ -124,7 +124,7 @@ impl<A: Automaton> fst::Automaton for Unanchored<A> {
 /// unconditionally support both unanchored and anchored searches.)
 ///
 /// ```
-/// use aho_corasick::{dfa::DFA, transducer::Anchored, StartKind};
+/// use aho_corasick_unsafe::{dfa::DFA, transducer::Anchored, StartKind};
 /// use fst::{Automaton, IntoStreamer, Set, Streamer};
 ///
 /// let set = Set::from_iter(&["abcd", "bc", "bcd", "xyz"]).unwrap();

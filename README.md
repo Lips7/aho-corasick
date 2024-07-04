@@ -32,7 +32,7 @@ simultaneously. Each match includes the pattern that matched along with the
 byte offsets of the match.
 
 ```rust
-use aho_corasick::{AhoCorasick, PatternID};
+use aho_corasick_unsafe::{AhoCorasick, PatternID};
 
 let patterns = &["apple", "maple", "Snapple"];
 let haystack = "Nobody likes maple in their apple flavored Snapple.";
@@ -56,7 +56,7 @@ This is like the previous example, but matches `Snapple` case insensitively
 using `AhoCorasickBuilder`:
 
 ```rust
-use aho_corasick::{AhoCorasick, PatternID};
+use aho_corasick_unsafe::{AhoCorasick, PatternID};
 
 let patterns = &["apple", "maple", "snapple"];
 let haystack = "Nobody likes maple in their apple flavored Snapple.";
@@ -83,7 +83,7 @@ This example shows how to execute a search and replace on a stream without
 loading the entire stream into memory first.
 
 ```rust,ignore
-use aho_corasick::AhoCorasick;
+use aho_corasick_unsafe::AhoCorasick;
 
 let patterns = &["fox", "brown", "quick"];
 let replace_with = &["sloth", "grey", "slow"];
@@ -120,7 +120,7 @@ semantics of Aho-Corasick (without additional search time overhead) such that
 `Samwise` is reported instead. For example, here's the standard approach:
 
 ```rust
-use aho_corasick::AhoCorasick;
+use aho_corasick_unsafe::AhoCorasick;
 
 let patterns = &["Samwise", "Sam"];
 let haystack = "Samwise";
@@ -134,7 +134,7 @@ And now here's the leftmost-first version, which matches how a Perl-like
 regex will work:
 
 ```rust
-use aho_corasick::{AhoCorasick, MatchKind};
+use aho_corasick_unsafe::{AhoCorasick, MatchKind};
 
 let patterns = &["Samwise", "Sam"];
 let haystack = "Samwise";

@@ -36,7 +36,7 @@ simultaneously. Each match includes the pattern that matched along with the
 byte offsets of the match.
 
 ```
-use aho_corasick::{AhoCorasick, PatternID};
+use aho_corasick_unsafe::{AhoCorasick, PatternID};
 
 let patterns = &["apple", "maple", "Snapple"];
 let haystack = "Nobody likes maple in their apple flavored Snapple.";
@@ -59,7 +59,7 @@ This is like the previous example, but matches `Snapple` case insensitively
 using `AhoCorasickBuilder`:
 
 ```
-use aho_corasick::{AhoCorasick, PatternID};
+use aho_corasick_unsafe::{AhoCorasick, PatternID};
 
 let patterns = &["apple", "maple", "snapple"];
 let haystack = "Nobody likes maple in their apple flavored Snapple.";
@@ -86,7 +86,7 @@ loading the entire stream into memory first.
 
 ```
 # #[cfg(feature = "std")] {
-use aho_corasick::AhoCorasick;
+use aho_corasick_unsafe::AhoCorasick;
 
 # fn example() -> Result<(), std::io::Error> {
 let patterns = &["fox", "brown", "quick"];
@@ -124,7 +124,7 @@ semantics of Aho-Corasick (without additional search time overhead) such that
 `Samwise` is reported instead. For example, here's the standard approach:
 
 ```
-use aho_corasick::AhoCorasick;
+use aho_corasick_unsafe::AhoCorasick;
 
 let patterns = &["Samwise", "Sam"];
 let haystack = "Samwise";
@@ -138,7 +138,7 @@ And now here's the leftmost-first version, which matches how a Perl-like
 regex will work:
 
 ```
-use aho_corasick::{AhoCorasick, MatchKind};
+use aho_corasick_unsafe::{AhoCorasick, MatchKind};
 
 let patterns = &["Samwise", "Sam"];
 let haystack = "Samwise";

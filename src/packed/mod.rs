@@ -30,7 +30,7 @@ By default, leftmost-first match semantics are used. (See the top-level
 similarly to packed substring search.)
 
 ```
-use aho_corasick::{packed::{MatchKind, Searcher}, PatternID};
+use aho_corasick_unsafe::{packed::{MatchKind, Searcher}, PatternID};
 
 # fn example() -> Option<()> {
 let searcher = Searcher::new(["foobar", "foo"].iter().cloned())?;
@@ -53,7 +53,7 @@ This example shows how to use [`Config`] to change the match semantics to
 leftmost-longest:
 
 ```
-use aho_corasick::{packed::{Config, MatchKind}, PatternID};
+use aho_corasick_unsafe::{packed::{Config, MatchKind}, PatternID};
 
 # fn example() -> Option<()> {
 let searcher = Config::new()

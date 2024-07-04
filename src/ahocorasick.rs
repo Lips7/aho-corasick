@@ -150,7 +150,7 @@ use crate::{
 /// pattern that matched along with the byte offsets of the match.
 ///
 /// ```
-/// use aho_corasick::{AhoCorasick, PatternID};
+/// use aho_corasick_unsafe::{AhoCorasick, PatternID};
 ///
 /// let patterns = &["apple", "maple", "snapple"];
 /// let haystack = "Nobody likes maple in their apple flavored Snapple.";
@@ -173,7 +173,7 @@ use crate::{
 /// This example shows how to replace matches with some other string:
 ///
 /// ```
-/// use aho_corasick::AhoCorasick;
+/// use aho_corasick_unsafe::AhoCorasick;
 ///
 /// let patterns = &["fox", "brown", "quick"];
 /// let haystack = "The quick brown fox.";
@@ -420,7 +420,7 @@ impl AhoCorasick {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, PatternID};
+    /// use aho_corasick_unsafe::{AhoCorasick, PatternID};
     ///
     /// let ac = AhoCorasick::new(&["foo", "bar", "baz"]).unwrap();
     /// assert_eq!(
@@ -445,7 +445,7 @@ impl AhoCorasick {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, Match, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, Match, MatchKind};
     ///
     /// let ac = AhoCorasick::builder()
     ///     .match_kind(MatchKind::LeftmostFirst)
@@ -488,7 +488,7 @@ impl AhoCorasick {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::AhoCorasick;
+    /// use aho_corasick_unsafe::AhoCorasick;
     ///
     /// let ac = AhoCorasick::new(&[
     ///     "foo", "bar", "quux", "baz",
@@ -520,7 +520,7 @@ impl AhoCorasick {
     /// Basic usage, with standard semantics:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let patterns = &["b", "abc", "abcd"];
     /// let haystack = "abcd";
@@ -536,7 +536,7 @@ impl AhoCorasick {
     /// Now with leftmost-first semantics:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let patterns = &["b", "abc", "abcd"];
     /// let haystack = "abcd";
@@ -552,7 +552,7 @@ impl AhoCorasick {
     /// And finally, leftmost-longest semantics:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let patterns = &["b", "abc", "abcd"];
     /// let haystack = "abcd";
@@ -573,7 +573,7 @@ impl AhoCorasick {
     /// a match has occurred.
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, Input, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, Input, MatchKind};
     ///
     /// let patterns = &["b", "abc", "abcd"];
     /// let haystack = "abcd";
@@ -622,7 +622,7 @@ impl AhoCorasick {
     /// previous search.
     ///
     /// ```
-    /// use aho_corasick::{
+    /// use aho_corasick_unsafe::{
     ///     automaton::OverlappingState,
     ///     AhoCorasick, Input, Match,
     /// };
@@ -682,7 +682,7 @@ impl AhoCorasick {
     /// Basic usage, with standard semantics:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind, PatternID};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind, PatternID};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = "append the app to the appendage";
@@ -705,7 +705,7 @@ impl AhoCorasick {
     /// Now with leftmost-first semantics:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind, PatternID};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind, PatternID};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = "append the app to the appendage";
@@ -728,7 +728,7 @@ impl AhoCorasick {
     /// And finally, leftmost-longest semantics:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind, PatternID};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind, PatternID};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = "append the app to the appendage";
@@ -775,7 +775,7 @@ impl AhoCorasick {
     /// # Example: basic usage
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, PatternID};
+    /// use aho_corasick_unsafe::{AhoCorasick, PatternID};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = "append the app to the appendage";
@@ -824,7 +824,7 @@ impl AhoCorasick {
     /// # Example: basic usage
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = "append the app to the appendage";
@@ -866,7 +866,7 @@ impl AhoCorasick {
     /// # Example: basic usage
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = b"append the app to the appendage";
@@ -915,7 +915,7 @@ impl AhoCorasick {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = "append the app to the appendage";
@@ -936,7 +936,7 @@ impl AhoCorasick {
     /// example above):
     ///
     /// ```
-    /// # use aho_corasick::{AhoCorasick, MatchKind, PatternID};
+    /// # use aho_corasick_unsafe::{AhoCorasick, MatchKind, PatternID};
     /// # let patterns = &["append", "appendage", "app"];
     /// # let haystack = "append the app to the appendage";
     /// # let ac = AhoCorasick::builder()
@@ -984,7 +984,7 @@ impl AhoCorasick {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = b"append the app to the appendage";
@@ -1005,7 +1005,7 @@ impl AhoCorasick {
     /// example above):
     ///
     /// ```
-    /// # use aho_corasick::{AhoCorasick, MatchKind, PatternID};
+    /// # use aho_corasick_unsafe::{AhoCorasick, MatchKind, PatternID};
     /// # let patterns = &["append", "appendage", "app"];
     /// # let haystack = b"append the app to the appendage";
     /// # let ac = AhoCorasick::builder()
@@ -1071,7 +1071,7 @@ impl AhoCorasick {
     /// # Example: basic usage
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, PatternID};
+    /// use aho_corasick_unsafe::{AhoCorasick, PatternID};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = "append the app to the appendage";
@@ -1124,7 +1124,7 @@ impl AhoCorasick {
     /// Basic usage with leftmost-first semantics:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind, Input};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind, Input};
     ///
     /// let patterns = &["b", "abc", "abcd"];
     /// let haystack = "foo abcd";
@@ -1146,7 +1146,7 @@ impl AhoCorasick {
     /// be found that starts at the beginning of the search:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, Anchored, Input, MatchKind, StartKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, Anchored, Input, MatchKind, StartKind};
     ///
     /// let patterns = &["b", "abc", "abcd"];
     /// let haystack = "foo abcd";
@@ -1166,7 +1166,7 @@ impl AhoCorasick {
     /// it will be found:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, Anchored, Input, MatchKind, StartKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, Anchored, Input, MatchKind, StartKind};
     ///
     /// let patterns = &["b", "abc", "abcd"];
     /// let haystack = "foo abcd";
@@ -1191,7 +1191,7 @@ impl AhoCorasick {
     /// occurred, even if it doesn't correspond to the leftmost-first match.
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, Input, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, Input, MatchKind};
     ///
     /// let patterns = &["b", "abc", "abcd"];
     /// let haystack = "foo abcd";
@@ -1242,7 +1242,7 @@ impl AhoCorasick {
     /// previous search.
     ///
     /// ```
-    /// use aho_corasick::{
+    /// use aho_corasick_unsafe::{
     ///     automaton::OverlappingState,
     ///     AhoCorasick, Input, Match,
     /// };
@@ -1293,7 +1293,7 @@ impl AhoCorasick {
     /// calls are guaranteed to succeed.)
     ///
     /// ```
-    /// use aho_corasick::{
+    /// use aho_corasick_unsafe::{
     ///     automaton::OverlappingState,
     ///     AhoCorasick, Input, Match,
     /// };
@@ -1337,7 +1337,7 @@ impl AhoCorasick {
     /// the beginning of our search.
     ///
     /// ```
-    /// use aho_corasick::{
+    /// use aho_corasick_unsafe::{
     ///     automaton::OverlappingState,
     ///     AhoCorasick, Anchored, Input, Match, StartKind,
     /// };
@@ -1404,7 +1404,7 @@ impl AhoCorasick {
     /// Basic usage with leftmost-first semantics:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, Input, MatchKind, PatternID};
+    /// use aho_corasick_unsafe::{AhoCorasick, Input, MatchKind, PatternID};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = "append the app to the appendage";
@@ -1433,7 +1433,7 @@ impl AhoCorasick {
     /// search implies that all matches are adjacent.
     ///
     /// ```
-    /// use aho_corasick::{
+    /// use aho_corasick_unsafe::{
     ///     AhoCorasick, Anchored, Input, MatchKind, PatternID, StartKind,
     /// };
     ///
@@ -1491,7 +1491,7 @@ impl AhoCorasick {
     /// # Example: basic usage
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, Input, PatternID};
+    /// use aho_corasick_unsafe::{AhoCorasick, Input, PatternID};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = "append the app to the appendage";
@@ -1521,7 +1521,7 @@ impl AhoCorasick {
     /// semantics if desired.
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, Anchored, Input, StartKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, Anchored, Input, StartKind};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = "appendappendage app";
@@ -1567,7 +1567,7 @@ impl AhoCorasick {
     /// # Example: basic usage
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = "append the app to the appendage";
@@ -1618,7 +1618,7 @@ impl AhoCorasick {
     /// # Example: basic usage
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = b"append the app to the appendage";
@@ -1670,7 +1670,7 @@ impl AhoCorasick {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = "append the app to the appendage";
@@ -1693,7 +1693,7 @@ impl AhoCorasick {
     /// example above):
     ///
     /// ```
-    /// # use aho_corasick::{AhoCorasick, MatchKind, PatternID};
+    /// # use aho_corasick_unsafe::{AhoCorasick, MatchKind, PatternID};
     /// # let patterns = &["append", "appendage", "app"];
     /// # let haystack = "append the app to the appendage";
     /// # let ac = AhoCorasick::builder()
@@ -1746,7 +1746,7 @@ impl AhoCorasick {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = b"append the app to the appendage";
@@ -1769,7 +1769,7 @@ impl AhoCorasick {
     /// example above):
     ///
     /// ```
-    /// # use aho_corasick::{AhoCorasick, MatchKind, PatternID};
+    /// # use aho_corasick_unsafe::{AhoCorasick, MatchKind, PatternID};
     /// # let patterns = &["append", "appendage", "app"];
     /// # let haystack = b"append the app to the appendage";
     /// # let ac = AhoCorasick::builder()
@@ -1842,7 +1842,7 @@ impl AhoCorasick {
     /// # Example: basic usage
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, PatternID};
+    /// use aho_corasick_unsafe::{AhoCorasick, PatternID};
     ///
     /// let patterns = &["append", "appendage", "app"];
     /// let haystack = "append the app to the appendage";
@@ -1918,7 +1918,7 @@ impl AhoCorasick {
     /// # Example: basic usage
     ///
     /// ```
-    /// use aho_corasick::AhoCorasick;
+    /// use aho_corasick_unsafe::AhoCorasick;
     ///
     /// let patterns = &["fox", "brown", "quick"];
     /// let haystack = "The quick brown fox.";
@@ -1995,7 +1995,7 @@ impl AhoCorasick {
     ///
     /// ```
     /// use std::io::Write;
-    /// use aho_corasick::AhoCorasick;
+    /// use aho_corasick_unsafe::AhoCorasick;
     ///
     /// let patterns = &["fox", "brown", "quick"];
     /// let haystack = "The quick brown fox.";
@@ -2046,7 +2046,7 @@ impl AhoCorasick {
     /// # Examples
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, AhoCorasickKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, AhoCorasickKind};
     ///
     /// let ac = AhoCorasick::new(&["foo", "bar", "quux", "baz"]).unwrap();
     /// // The specific Aho-Corasick kind chosen is not guaranteed!
@@ -2062,7 +2062,7 @@ impl AhoCorasick {
     /// # Examples
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, StartKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, StartKind};
     ///
     /// let ac = AhoCorasick::new(&["foo", "bar", "quux", "baz"]).unwrap();
     /// assert_eq!(StartKind::Unanchored, ac.start_kind());
@@ -2081,7 +2081,7 @@ impl AhoCorasick {
     /// # Examples
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let ac = AhoCorasick::new(&["foo", "bar", "quux", "baz"]).unwrap();
     /// assert_eq!(MatchKind::Standard, ac.match_kind());
@@ -2097,7 +2097,7 @@ impl AhoCorasick {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::AhoCorasick;
+    /// use aho_corasick_unsafe::AhoCorasick;
     ///
     /// let ac = AhoCorasick::new(&["foo", "bar", "quux", "baz"]).unwrap();
     /// assert_eq!(3, ac.min_pattern_len());
@@ -2107,7 +2107,7 @@ impl AhoCorasick {
     /// and only if it can match the empty string:
     ///
     /// ```
-    /// use aho_corasick::AhoCorasick;
+    /// use aho_corasick_unsafe::AhoCorasick;
     ///
     /// let ac = AhoCorasick::new(&["foo", "", "quux", "baz"]).unwrap();
     /// assert_eq!(0, ac.min_pattern_len());
@@ -2123,7 +2123,7 @@ impl AhoCorasick {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::AhoCorasick;
+    /// use aho_corasick_unsafe::AhoCorasick;
     ///
     /// let ac = AhoCorasick::new(&["foo", "bar", "quux", "baz"]).unwrap();
     /// assert_eq!(4, ac.max_pattern_len());
@@ -2145,7 +2145,7 @@ impl AhoCorasick {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::AhoCorasick;
+    /// use aho_corasick_unsafe::AhoCorasick;
     ///
     /// let ac = AhoCorasick::new(&["foo", "bar", "baz"]).unwrap();
     /// assert_eq!(3, ac.patterns_len());
@@ -2164,7 +2164,7 @@ impl AhoCorasick {
     ///
     /// ```
     /// # if !cfg!(target_pointer_width = "64") { return; }
-    /// use aho_corasick::{AhoCorasick, AhoCorasickKind, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, AhoCorasickKind, MatchKind};
     ///
     /// let ac = AhoCorasick::builder()
     ///     .kind(None) // default
@@ -2347,7 +2347,7 @@ impl AhoCorasickBuilder {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasickBuilder, PatternID};
+    /// use aho_corasick_unsafe::{AhoCorasickBuilder, PatternID};
     ///
     /// let patterns = &["foo", "bar", "baz"];
     /// let ac = AhoCorasickBuilder::new().build(patterns).unwrap();
@@ -2483,7 +2483,7 @@ impl AhoCorasickBuilder {
     /// Standard semantics:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let patterns = &["b", "abc", "abcd"];
     /// let haystack = "abcd";
@@ -2499,7 +2499,7 @@ impl AhoCorasickBuilder {
     /// Leftmost-first semantics:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let patterns = &["b", "abc", "abcd"];
     /// let haystack = "abcd";
@@ -2515,7 +2515,7 @@ impl AhoCorasickBuilder {
     /// Leftmost-longest semantics:
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, MatchKind};
     ///
     /// let patterns = &["b", "abc", "abcd"];
     /// let haystack = "abcd";
@@ -2570,7 +2570,7 @@ impl AhoCorasickBuilder {
     /// searches:
     ///
     /// ```
-    /// use aho_corasick::{
+    /// use aho_corasick_unsafe::{
     ///     AhoCorasick, Anchored, Input, Match, MatchKind, StartKind,
     /// };
     ///
@@ -2601,7 +2601,7 @@ impl AhoCorasickBuilder {
     /// anchored searches:
     ///
     /// ```
-    /// use aho_corasick::{
+    /// use aho_corasick_unsafe::{
     ///     AhoCorasick, Anchored, Input, Match, MatchKind, StartKind,
     /// };
     ///
@@ -2648,7 +2648,7 @@ impl AhoCorasickBuilder {
     /// Basic usage:
     ///
     /// ```
-    /// use aho_corasick::AhoCorasick;
+    /// use aho_corasick_unsafe::AhoCorasick;
     ///
     /// let patterns = &["FOO", "bAr", "BaZ"];
     /// let haystack = "foo bar baz";

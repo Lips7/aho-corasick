@@ -1,6 +1,6 @@
 [package]
 name = "aho-corasick-unsafe"
-version = "0.0.2"
+version = "0.0.3"
 authors = ["Andrew Gallant <jamslam@gmail.com>"]
 description = "Fast multiple substring searching."
 homepage = "https://github.com/BurntSushi/aho-corasick"
@@ -33,14 +33,14 @@ logging = ["dep:log"]
 # nfa::contiguous::NFA and dfa::DFA. This is useful for searching an
 # FST with an Aho-Corasick automaton. Note that this does not apply
 # to the top-level 'AhoCorasick' type, as it does not implement the
-# aho_corasick::automaton::Automaton trait, and thus enabling this feature does
+# aho_corasick_unsafe::automaton::Automaton trait, and thus enabling this feature does
 # not cause it to implement fst::Automaton either.
 #
 # NOTE: Currently this feature is not available as `fst` is not at 1.0 yet,
 # and this would make `fst` a public dependency. If you absolutely need this,
 # you can copy the (very small) src/transducer.rs file to your tree. It
 # specifically does not use any private APIs and should work after replacing
-# 'crate::' with 'aho_corasick::'.
+# 'crate::' with 'aho_corasick_unsafe::'.
 #
 # NOTE: I think my current plan is to flip this around an add an optional
 # dependency on 'aho-corasick' to the 'fst' crate and move the trait impls

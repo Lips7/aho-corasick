@@ -59,7 +59,7 @@ use crate::util::primitives::PatternID;
 /// suitable, but also an `Input` when they're not. For example:
 ///
 /// ```
-/// use aho_corasick::{AhoCorasick, Anchored, Input, Match, StartKind};
+/// use aho_corasick_unsafe::{AhoCorasick, Anchored, Input, Match, StartKind};
 ///
 /// // Build a searcher that supports both unanchored and anchored modes.
 /// let ac = AhoCorasick::builder()
@@ -124,7 +124,7 @@ impl<'h> Input<'h> {
     /// match is reported or not.
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, Input, MatchKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, Input, MatchKind};
     ///
     /// let patterns = &["b", "abcd", "abc"];
     /// let haystack = "abcd";
@@ -166,7 +166,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::Input;
+    /// use aho_corasick_unsafe::Input;
     ///
     /// let input = Input::new("foobar");
     /// assert_eq!(0..6, input.get_range());
@@ -220,7 +220,7 @@ impl<'h> Input<'h> {
     /// anchored searches simultaneously.
     ///
     /// ```
-    /// use aho_corasick::{
+    /// use aho_corasick_unsafe::{
     ///     AhoCorasick, Anchored, Input, MatchKind, StartKind,
     /// };
     ///
@@ -279,7 +279,7 @@ impl<'h> Input<'h> {
     /// normal leftmost searching.
     ///
     /// ```
-    /// use aho_corasick::{AhoCorasick, Anchored, Input, MatchKind, StartKind};
+    /// use aho_corasick_unsafe::{AhoCorasick, Anchored, Input, MatchKind, StartKind};
     ///
     /// let patterns = &["abc", "b"];
     /// let haystack = "abc";
@@ -324,7 +324,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::Input;
+    /// use aho_corasick_unsafe::Input;
     ///
     /// let mut input = Input::new("foobar");
     /// assert_eq!(0..6, input.get_range());
@@ -362,7 +362,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::Input;
+    /// use aho_corasick_unsafe::Input;
     ///
     /// let mut input = Input::new("foobar");
     /// assert_eq!(0..6, input.get_range());
@@ -404,7 +404,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::Input;
+    /// use aho_corasick_unsafe::Input;
     ///
     /// let mut input = Input::new("foobar");
     /// assert_eq!(0..6, input.get_range());
@@ -429,7 +429,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::Input;
+    /// use aho_corasick_unsafe::Input;
     ///
     /// let mut input = Input::new("foobar");
     /// assert_eq!(0..6, input.get_range());
@@ -449,7 +449,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::{Anchored, Input};
+    /// use aho_corasick_unsafe::{Anchored, Input};
     ///
     /// let mut input = Input::new("foobar");
     /// assert_eq!(Anchored::No, input.get_anchored());
@@ -470,7 +470,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::Input;
+    /// use aho_corasick_unsafe::Input;
     ///
     /// let mut input = Input::new("foobar");
     /// assert!(!input.get_earliest());
@@ -487,7 +487,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::Input;
+    /// use aho_corasick_unsafe::Input;
     ///
     /// let input = Input::new("foobar");
     /// assert_eq!(b"foobar", input.haystack());
@@ -504,7 +504,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::Input;
+    /// use aho_corasick_unsafe::Input;
     ///
     /// let input = Input::new("foobar");
     /// assert_eq!(0, input.start());
@@ -524,7 +524,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::Input;
+    /// use aho_corasick_unsafe::Input;
     ///
     /// let input = Input::new("foobar");
     /// assert_eq!(6, input.end());
@@ -545,7 +545,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::{Input, Span};
+    /// use aho_corasick_unsafe::{Input, Span};
     ///
     /// let input = Input::new("foobar");
     /// assert_eq!(Span { start: 0, end: 6 }, input.get_span());
@@ -563,7 +563,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::Input;
+    /// use aho_corasick_unsafe::Input;
     ///
     /// let input = Input::new("foobar");
     /// assert_eq!(0..6, input.get_range());
@@ -580,7 +580,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::{Anchored, Input};
+    /// use aho_corasick_unsafe::{Anchored, Input};
     ///
     /// let mut input = Input::new("foobar");
     /// assert_eq!(Anchored::No, input.get_anchored());
@@ -598,7 +598,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::Input;
+    /// use aho_corasick_unsafe::Input;
     ///
     /// let input = Input::new("foobar");
     /// assert!(!input.get_earliest());
@@ -617,7 +617,7 @@ impl<'h> Input<'h> {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::Input;
+    /// use aho_corasick_unsafe::Input;
     ///
     /// let mut input = Input::new("foobar");
     /// assert!(!input.is_done());
@@ -801,7 +801,7 @@ impl Anchored {
     /// # Example
     ///
     /// ```
-    /// use aho_corasick::Anchored;
+    /// use aho_corasick_unsafe::Anchored;
     ///
     /// assert!(!Anchored::No.is_anchored());
     /// assert!(Anchored::Yes.is_anchored());
@@ -849,7 +849,7 @@ impl Match {
     /// Aho-Corasick searcher using convenient range syntax.
     ///
     /// ```
-    /// use aho_corasick::{Match, PatternID};
+    /// use aho_corasick_unsafe::{Match, PatternID};
     ///
     /// let m = Match::new(PatternID::ZERO, 5..10);
     /// assert_eq!(0, m.pattern().as_usize());
@@ -883,7 +883,7 @@ impl Match {
     /// Aho-Corasick searcher using convenient range syntax.
     ///
     /// ```
-    /// use aho_corasick::Match;
+    /// use aho_corasick_unsafe::Match;
     ///
     /// let m = Match::must(3, 5..10);
     /// assert_eq!(3, m.pattern().as_usize());

@@ -61,7 +61,7 @@ use crate::{
 /// [`Automaton::try_find`]:
 ///
 /// ```
-/// use aho_corasick::{
+/// use aho_corasick_unsafe::{
 ///     automaton::Automaton,
 ///     nfa::noncontiguous::NFA,
 ///     Input, Match,
@@ -302,12 +302,13 @@ impl NFA {
         &self,
         sid: StateID,
     ) -> impl Iterator<Item = PatternID> + '_ {
-        let mut link = self.states[sid].matches;
+        let mut link =
+            unsafe { self.states.get_unchecked(sid.as_usize()) }.matches;
         core::iter::from_fn(move || {
             if link == StateID::ZERO {
                 return None;
             }
-            let m = self.matches[link];
+            let m = unsafe { self.matches.get_unchecked(link.as_usize()) };
             link = m.link;
             Some(m.pid)
         })
@@ -666,7 +667,7 @@ unsafe impl Automaton for NFA {
 
     #[inline(always)]
     fn pattern_len(&self, pid: PatternID) -> usize {
-        self.pattern_lens[pid].as_usize()
+        unsafe { self.pattern_lens.get_unchecked(pid.as_usize()) }.as_usize()
     }
 
     #[inline(always)]
