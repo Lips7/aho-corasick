@@ -281,15 +281,19 @@ unsafe impl Automaton for DFA {
     #[inline(always)]
     fn match_len(&self, sid: StateID) -> usize {
         debug_assert!(self.is_match(sid));
-        let offset = (sid.as_usize() >> self.stride2) - 2;
-        unsafe { self.matches.get_unchecked(offset) }.len()
+        unsafe {
+            let offset = (sid.as_usize() >> self.stride2).unchecked_sub(2);
+            self.matches.get_unchecked(offset).len()
+        }
     }
 
     #[inline(always)]
     fn match_pattern(&self, sid: StateID, index: usize) -> PatternID {
         debug_assert!(self.is_match(sid));
-        let offset = (sid.as_usize() >> self.stride2) - 2;
-        *unsafe { self.matches.get_unchecked(offset).get_unchecked(index) }
+        unsafe {
+            let offset = (sid.as_usize() >> self.stride2).unchecked_sub(2);
+            *self.matches.get_unchecked(offset).get_unchecked(index)
+        }
     }
 
     #[inline(always)]
