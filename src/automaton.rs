@@ -447,7 +447,12 @@ pub unsafe trait Automaton: private::Sealed {
         );
         let mut dst = String::with_capacity(haystack.len());
         self.try_replace_all_with(haystack, &mut dst, |mat, _, dst| {
-            dst.push_str(replace_with[mat.pattern()].as_ref());
+            dst.push_str(
+                unsafe {
+                    replace_with.get_unchecked(mat.pattern().as_usize())
+                }
+                .as_ref(),
+            );
             true
         })?;
         Ok(dst)
@@ -478,7 +483,12 @@ pub unsafe trait Automaton: private::Sealed {
         );
         let mut dst = Vec::with_capacity(haystack.len());
         self.try_replace_all_with_bytes(haystack, &mut dst, |mat, _, dst| {
-            dst.extend(replace_with[mat.pattern()].as_ref());
+            dst.extend(
+                unsafe {
+                    replace_with.get_unchecked(mat.pattern().as_usize())
+                }
+                .as_ref(),
+            );
             true
         })?;
         Ok(dst)
@@ -511,13 +521,19 @@ pub unsafe trait Automaton: private::Sealed {
             {
                 continue;
             }
-            dst.push_str(&haystack[last_match..m.start()]);
+            dst.push_str(unsafe {
+                haystack.get_unchecked(last_match..m.start())
+            });
             last_match = m.end();
-            if !replace_with(&m, &haystack[m.start()..m.end()], dst) {
+            if !replace_with(
+                &m,
+                unsafe { haystack.get_unchecked(m.start()..m.end()) },
+                dst,
+            ) {
                 break;
             };
         }
-        dst.push_str(&haystack[last_match..]);
+        dst.push_str(unsafe { haystack.get_unchecked(last_match..) });
         Ok(())
     }
 
@@ -539,13 +555,19 @@ pub unsafe trait Automaton: private::Sealed {
     {
         let mut last_match = 0;
         for m in self.try_find_iter(Input::new(haystack))? {
-            dst.extend(&haystack[last_match..m.start()]);
+            dst.extend(unsafe {
+                haystack.get_unchecked(last_match..m.start())
+            });
             last_match = m.end();
-            if !replace_with(&m, &haystack[m.start()..m.end()], dst) {
+            if !replace_with(
+                &m,
+                unsafe { haystack.get_unchecked(m.start()..m.end()) },
+                dst,
+            ) {
                 break;
             };
         }
-        dst.extend(&haystack[last_match..]);
+        dst.extend(unsafe { haystack.get_unchecked(last_match..) });
         Ok(())
     }
 
@@ -594,7 +616,12 @@ pub unsafe trait Automaton: private::Sealed {
              in the automaton",
         );
         self.try_stream_replace_all_with(rdr, wtr, |mat, _, wtr| {
-            wtr.write_all(replace_with[mat.pattern()].as_ref())
+            wtr.write_all(
+                unsafe {
+                    replace_with.get_unchecked(mat.pattern().as_usize())
+                }
+                .as_ref(),
+            )
         })
     }
 
