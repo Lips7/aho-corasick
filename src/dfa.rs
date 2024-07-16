@@ -17,7 +17,7 @@ use crate::{
     util::{
         alphabet::ByteClasses,
         error::{BuildError, MatchError},
-        int::{Usize, U32},
+        int::{Usize, U8},
         prefilter::Prefilter,
         primitives::{IteratorIndexExt, PatternID, SmallIndex, StateID},
         search::{Anchored, MatchKind, StartKind},
@@ -228,7 +228,7 @@ unsafe impl Automaton for DFA {
         let class = self.byte_classes.get(byte);
         *unsafe {
             self.trans
-                .get_unchecked(sid.as_usize() + u32::from(class).as_usize())
+                .get_unchecked(sid.as_usize().unchecked_add(class.as_usize()))
         }
     }
 

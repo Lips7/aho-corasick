@@ -286,12 +286,13 @@ impl NFA {
         &self,
         sid: StateID,
     ) -> impl Iterator<Item = Transition> + '_ {
-        let mut link = self.states[sid].sparse;
+        let mut link =
+            unsafe { self.states.get_unchecked(sid.as_usize()) }.sparse;
         core::iter::from_fn(move || {
             if link == StateID::ZERO {
                 return None;
             }
-            let t = self.sparse[link];
+            let t = *unsafe { self.sparse.get_unchecked(link.as_usize()) };
             link = t.link;
             Some(t)
         })
@@ -342,7 +343,7 @@ impl NFA {
     /// transition exists, then the FAIL state ID is returned.
     #[inline(always)]
     fn follow_transition(&self, sid: StateID, byte: u8) -> StateID {
-        let s = &self.states[sid];
+        let s = unsafe { self.states.get_unchecked(sid.as_usize()) };
         // This is a special case that targets starting states and states
         // near a start state. Namely, after the initial trie is constructed,
         // we look for states close to the start state to convert to a dense
@@ -360,7 +361,10 @@ impl NFA {
             self.follow_transition_sparse(sid, byte)
         } else {
             let class = usize::from(self.byte_classes.get(byte));
-            self.dense[s.dense.as_usize() + class]
+            *unsafe {
+                self.dense
+                    .get_unchecked(s.dense.as_usize().unchecked_add(class))
+            }
         }
     }
 
@@ -626,7 +630,7 @@ unsafe impl Automaton for NFA {
             if anchored.is_anchored() {
                 return NFA::DEAD;
             }
-            sid = self.states[sid].fail();
+            sid = unsafe { self.states.get_unchecked(sid.as_usize()) }.fail();
         }
     }
 
